@@ -1,4 +1,4 @@
-> _NOT YET FUNCTIONAL
+> _NOT YET FUNCTIONAL_
 
 # grunt-titanium
 
