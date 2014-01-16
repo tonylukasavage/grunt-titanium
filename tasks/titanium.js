@@ -8,43 +8,113 @@
 
 'use strict';
 
+var _ = require('lodash'),
+  async = require('async'),
+  child_process = require('child_process'),
+  exec = child_process.exec,
+  path = require('path'),
+  spawn = child_process.spawn;
+
+var GLOBAL_FLAGS = {
+  noBanner: true,
+  noProgressBars: true,
+  noPrompt: true
+},
+TITANIUM = path.resolve('node_modules', '.bin', 'titanium');
+
 module.exports = function(grunt) {
 
-  // Please see the Grunt documentation for more information regarding task
-  // creation: http://gruntjs.com/creating-tasks
-
   grunt.registerMultiTask('titanium', 'grunt plugin for titanium CLI', function() {
-    // Merge task-specific and/or target-specific options with these defaults.
-    var options = this.options({
-      punctuation: '.',
-      separator: ', '
-    });
 
-    // Iterate over all specified file groups.
-    this.files.forEach(function(f) {
-      // Concat specified files.
-      var src = f.src.filter(function(filepath) {
-        // Warn on and remove invalid source files (if nonull was set).
-        if (!grunt.file.exists(filepath)) {
-          grunt.log.warn('Source file "' + filepath + '" not found.');
-          return false;
-        } else {
-          return true;
+    var command = this.options().command || 'build',
+      done = this.async(),
+      options;
+
+    // set default options based on command
+    switch (command) {
+      case 'build':
+        options = this.options(_.extend({
+          logLevel: 'info',
+          platform: process.platform === 'darwin' ? 'ios' : 'android',
+          projectDir: '.'
+        }, GLOBAL_FLAGS));
+        break;
+      case 'create':
+        options = this.options(_.extend({
+          name: 'tmp',
+          id: 'com.grunttitanium.tmp',
+          workspaceDir: '.',
+          platforms: 'android,blackberry,ios,ipad,iphone,mobileweb,tizen',
+          quiet: true
+        }, GLOBAL_FLAGS));
+
+        // make sure options.platforms is a string
+        if (_.isArray(options.platforms)) {
+          options.platforms = options.platforms.join(',');
         }
-      }).map(function(filepath) {
-        // Read file source.
-        return grunt.file.read(filepath);
-      }).join(grunt.util.normalizelf(options.separator));
+        break;
+      default:
+        break;
+    }
 
-      // Handle options.
-      src += options.punctuation;
+    delete options.command;
 
-      // Write the destination file.
-      grunt.file.write(f.dest, src);
+    async.series([
 
-      // Print a success message.
-      grunt.log.writeln('File "' + f.dest + '" created.');
+      // make sure the user is logged in
+      function(callback) {
+        exec(TITANIUM + ' status -o json', function(err, stdout, stderr) {
+          if (err) { return callback(err); }
+          if (!JSON.parse(stdout).loggedIn) {
+            grunt.fail.fatal([
+              'You must be logged in to use grunt-titanium. Use `titanium login`.'
+            ]);
+          }
+          return callback();
+        });
+      },
+
+      // execute the titanium command
+      function(callback) {
+        var args = [];
+
+        // create the list of command arguments
+        Object.keys(options).forEach(function(key) {
+          var value = options[key],
+            isBool = _.isBoolean(value);
+          if (!isBool || (isBool && !!value)) {
+            args.push(camelCaseToDash(key));
+          }
+          if (!isBool) { args.push(value); }
+        });
+        args.unshift(command);
+
+        // spawn command and output
+        grunt.log.writeln(TITANIUM + ' ' + args.join(' '));
+        var ti = spawn(TITANIUM, args);
+        ti.stdout.on('data', function(data) {
+          process.stdout.write(data);
+        });
+        ti.stderr.on('data', function(data) {
+          process.stdout.write(data);
+        });
+        ti.on('close', function(code) {
+          if (command !== 'build') {
+            grunt.log[code ? 'error' : 'ok']('titanium ' + command + ' complete. ');
+          }
+          return callback(code);
+        });
+      }
+
+    ], function(err, result) {
+      done(err);
     });
+
   });
 
 };
+
+function camelCaseToDash(str) {
+  if (typeof str !== 'string') { return str; }
+  return '--' + str.replace(/([A-Z])/g, function(m) { return '-' + m.toLowerCase(); });
+}
