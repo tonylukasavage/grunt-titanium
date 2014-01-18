@@ -50,6 +50,15 @@ module.exports = function(grunt) {
           buildOnly: true,
           quiet: true
         }
+      },
+
+      should_project: {
+        options: {
+          command: 'project',
+          projectDir: path.join('tmp', TEST_APP),
+          output: 'json',
+          args: ['sdk-version', '3.2.0.GA']
+        }
       }
 
     },

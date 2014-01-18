@@ -1,6 +1,7 @@
 'use strict';
 
-var grunt = require('grunt'),
+var fs = require('fs'),
+  grunt = require('grunt'),
   path = require('path');
 
 var TEST_APP = 'grunt-titanium-app',
@@ -33,6 +34,13 @@ exports.titanium = {
       test.ok(grunt.file.exists(path.join(appPath, 'build', 'android', 'bin')));
       test.ok(grunt.file.exists(path.join(appPath, 'build', 'android', 'bin', TEST_APP + '.apk')));
     }
+
+    test.done();
+  },
+  should_project: function(test) {
+    test.expect(0);
+
+    // titanium CLI does not yet support setting values via "ti project"
 
     test.done();
   }

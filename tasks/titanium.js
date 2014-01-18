@@ -18,7 +18,8 @@ var _ = require('lodash'),
 var GLOBAL_FLAGS = {
   noBanner: true,
   noProgressBars: true,
-  noPrompt: true
+  noPrompt: true,
+  args: []
 },
 TITANIUM = path.resolve('node_modules', '.bin', 'titanium');
 
@@ -28,6 +29,7 @@ module.exports = function(grunt) {
 
     var command = this.options().command || 'build',
       done = this.async(),
+      extraArgs = [],
       options;
 
     // set default options based on command
@@ -54,10 +56,14 @@ module.exports = function(grunt) {
         }
         break;
       default:
+        options = this.options(GLOBAL_FLAGS);
         break;
     }
 
+    extraArgs = options.args.slice(0);
+    delete options.args;
     delete options.command;
+
 
     async.series([
 
@@ -89,6 +95,9 @@ module.exports = function(grunt) {
         });
         args.unshift(command);
 
+        // add non-option, non-flag arguments
+        args = args.concat(extraArgs);
+
         // spawn command and output
         grunt.log.writeln(TITANIUM + ' ' + args.join(' '));
         var ti = spawn(TITANIUM, args);
@@ -100,7 +109,7 @@ module.exports = function(grunt) {
         });
         ti.on('close', function(code) {
           if (command !== 'build' || options.buildOnly) {
-            grunt.log[code ? 'error' : 'ok']('titanium ' + command + ' complete. ');
+            grunt.log[code ? 'error' : 'ok']('titanium ' + command + ' ' + (code ? 'failed' : 'complete') + '.');
           }
           return callback(code);
         });
