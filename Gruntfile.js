@@ -8,6 +8,10 @@
 
 'use strict';
 
+var path = require('path');
+
+var TEST_APP = 'grunt-titanium-app';
+
 module.exports = function(grunt) {
 
   // Project configuration.
@@ -34,8 +38,17 @@ module.exports = function(grunt) {
       should_create: {
         options: {
           command: 'create',
-          name: 'should_create',
+          name: TEST_APP,
           workspaceDir: 'tmp'
+        }
+      },
+
+      should_build: {
+        options: {
+          command: 'build',
+          projectDir: path.join('tmp', TEST_APP),
+          buildOnly: true,
+          quiet: true
         }
       }
 

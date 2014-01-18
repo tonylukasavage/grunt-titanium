@@ -99,7 +99,7 @@ module.exports = function(grunt) {
           process.stdout.write(data);
         });
         ti.on('close', function(code) {
-          if (command !== 'build') {
+          if (command !== 'build' || options.buildOnly) {
             grunt.log[code ? 'error' : 'ok']('titanium ' + command + ' complete. ');
           }
           return callback(code);
