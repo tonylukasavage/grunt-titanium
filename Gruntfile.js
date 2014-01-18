@@ -59,6 +59,13 @@ module.exports = function(grunt) {
           output: 'json',
           args: ['sdk-version', '3.2.0.GA']
         }
+      },
+
+      should_sdk: {
+        options: {
+          command: 'sdk',
+          args: ['select', '3.2.0.GA']
+        }
       }
 
     },

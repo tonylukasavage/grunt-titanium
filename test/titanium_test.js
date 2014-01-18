@@ -1,6 +1,7 @@
 'use strict';
 
-var fs = require('fs'),
+var exec = require('child_process').exec,
+  fs = require('fs'),
   grunt = require('grunt'),
   path = require('path');
 
@@ -43,5 +44,20 @@ exports.titanium = {
     // titanium CLI does not yet support setting values via "ti project"
 
     test.done();
+  },
+  should_sdk: function(test) {
+    test.expect(5);
+
+    var bin = path.join(__dirname, '..', 'node_modules', '.bin', 'titanium');
+    exec('"' + bin + '" sdk list --output json', function(err, stdout, stderr) {
+      test.ok(!err);
+      test.ok(stdout);
+      var json = JSON.parse(stdout);
+      test.ok(json);
+      test.ok(json.activeSDK);
+      test.equal(json.activeSDK, '3.2.0.GA');
+
+      test.done();
+    });
   }
 };
