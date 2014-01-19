@@ -1,4 +1,4 @@
-# grunt-titanium
+# grunt-titanium [![NPM version](https://badge.fury.io/js/grunt-titanium.png)](http://badge.fury.io/js/grunt-titanium) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
 > grunt plugin for titanium CLI
 
