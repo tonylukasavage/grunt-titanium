@@ -17,6 +17,10 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-titanium');
 ```
 
+## Prerequisites
+
+grunt-titanium sits on top of your [Titanium SDK](http://www.appcelerator.com/titanium/) installation. It won't install the SDK for you. It won't install Android, iOS, etc... for you. Be sure your Titanium environment is setup before trying to use this plugin as part of your development workflow.
+
 ## The "titanium" task
 
 ### Overview
