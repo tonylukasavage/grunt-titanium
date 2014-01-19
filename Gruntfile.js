@@ -34,7 +34,6 @@ module.exports = function(grunt) {
 
     // Configuration to be run (and then tested).
     titanium: {
-
       should_create: {
         options: {
           command: 'create',
@@ -42,7 +41,6 @@ module.exports = function(grunt) {
           workspaceDir: 'tmp'
         }
       },
-
       should_build: {
         options: {
           command: 'build',
@@ -51,7 +49,6 @@ module.exports = function(grunt) {
           quiet: true
         }
       },
-
       should_project: {
         options: {
           command: 'project',
@@ -60,14 +57,12 @@ module.exports = function(grunt) {
           args: ['sdk-version', '3.2.0.GA']
         }
       },
-
       should_sdk: {
         options: {
           command: 'sdk',
           args: ['select', '3.2.0.GA']
         }
       },
-
       should_clean: {
         options: {
           command: 'clean',
@@ -75,10 +70,9 @@ module.exports = function(grunt) {
           quiet: true
         }
       }
-
     },
 
-    // Unit tests.
+    // unit tests
     nodeunit: {
       main: ['test/main_test.js'],
       clean: ['test/clean_test.js']
@@ -94,9 +88,14 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
+  // install in a Titanium project, if present
+  grunt.registerTask('test-env', function() {
+    process.env.GRUNT_TITANIUM_TEST = '1';
+  });
+
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'titanium:should_create', 'titanium:should_build', 'titanium:should_project',
+  grunt.registerTask('test', ['test-env', 'titanium:should_create', 'titanium:should_build', 'titanium:should_project',
     'titanium:should_sdk', 'nodeunit:main', 'titanium:should_clean', 'nodeunit:clean', 'clean']);
 
   // By default, lint and run all tests.

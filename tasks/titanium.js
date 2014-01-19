@@ -20,12 +20,14 @@ var GLOBAL_FLAGS = {
   noProgressBars: true,
   noPrompt: true,
   args: []
-},
-TITANIUM = path.resolve('node_modules', '.bin', 'titanium');
+};
 
 module.exports = function(grunt) {
 
   grunt.registerMultiTask('titanium', 'grunt plugin for titanium CLI', function() {
+
+    var TITANIUM = process.env.GRUNT_TITANIUM_TEST ? path.resolve('node_modules', '.bin', 'titanium') :
+      path.resolve('node_modules', 'grunt-titanium', 'node_modules', '.bin', 'titanium');
 
     var command = this.options().command || 'build',
       done = this.async(),
