@@ -1,7 +1,7 @@
 {
   "name": "grunt-titanium",
   "description": "grunt plugin for titanium CLI",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/tonylukasavage/grunt-titanium",
   "author": {
     "name": "Tony Lukasavage",
