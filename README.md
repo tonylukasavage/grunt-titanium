@@ -81,7 +81,7 @@ grunt.initConfig({
 
 ### Usage Examples
 
-There's a few practical usage examples in the [tests](test/main_test.js), but here's a few more explained. Note that grunt-titanium will use sensible defaults for many required CLI parameters.
+There's a few practical usage examples in this repo's [Gruntfile.js](Gruntfile.js), but here's a few more explained. Note that grunt-titanium will use sensible defaults for many required CLI parameters.
 
 #### Create a project
 
