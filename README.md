@@ -89,7 +89,7 @@ grunt.initConfig({
 
 ### Usage Examples
 
-There's a few practical usage examples in this repo's [Gruntfile.js](Gruntfile.js), but here's a few more explained. Note that grunt-titanium will use sensible defaults for many required CLI parameters.
+There's a few practical usage examples in this repo's [Gruntfile.js](Gruntfile.js). Also, [ti-mocha's Gruntfile.js](https://github.com/tonylukasavage/ti-mocha/blob/master/Gruntfile.js) uses grunt-titanium to automate the launching of runtime testing. Aside from that, here's a few more examples. Note that grunt-titanium will use sensible defaults for many required CLI parameters.
 
 #### Create a project
 
