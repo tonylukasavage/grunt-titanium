@@ -1,5 +1,3 @@
-> !!! _NOT YET FUNCTIONAL_ !!!
-
 # grunt-titanium
 
 > grunt plugin for titanium CLI
@@ -39,53 +37,130 @@ grunt.initConfig({
 
 ### Options
 
-#### options.separator
+#### options.command
 Type: `String`
-Default value: `',  '`
+Default value: `build`
 
-A string value that is used to do something with whatever.
+The command to execute with the Titanium CLI.
 
-#### options.punctuation
-Type: `String`
-Default value: `'.'`
+#### options.args
+Type: `Array`,
+Default value: `[]`
 
-A string value that is used to do something else with whatever else.
+All the non-flag, non-option arguments to pass to the Titanium CLI. For example, `ti sdk select 3.2.0.GA` would be created as
 
-### Usage Examples
-
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
-
-```js
+```javascript
 grunt.initConfig({
   titanium: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
+    options: {
+      command: 'sdk',
+      args: ['select', '3.2.0.GA']
+    }
+  }
 });
 ```
 
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+#### options...
+
+The rest of the options and flags are the same as the those available to the Titanium CLI. You can see this list like this by typing `titanium help COMMAND_NAME`. The options should be named as camel case as opposed to the dashed format used by the CLI, making them easier to use as keys in your options. For example, `--build-only` becomes `buildOnly`. More details in the examples below.
+
+#### flags
+
+Flags like `--quiet` should be given a boolean value.
 
 ```js
 grunt.initConfig({
   titanium: {
     options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
+      command: 'clean',
+      quiet: false
+    }
+  }
 });
 ```
 
+### Usage Examples
+
+There's a few practical usage examples in the [tests](test/main_test.js), but here's a few more explained. Note that grunt-titanium will use sensible defaults for many required CLI parameters.
+
+#### Create a project
+
+grunt-titanium makes it trivial to add creating a Titanium project to your workflow. Extremely useful for testing. The following would create an app named `MyTestApp` in the same directory as your Gruntfile.js.
+
+```js
+grunt.initConfig({
+  titanium: {
+    options: {
+      command: 'create',
+      name: 'MyTestApp',
+      workspaceDir: '.'
+    }
+  }
+});
+```
+
+Let's say we wanted to build an app in a specific location. We could do it like this:
+
+```js
+grunt.initConfig({
+  titanium: {
+    options: {
+      command: 'build',
+      projectDir: '/path/to/project',
+      platform: 'ios'
+    }
+  }
+});
+
+Or try out some of the Titanium CLI's other commands. grunt-titanium can do anything the CLI can do, so feel free to be inventive. Let's say we have some automated testing and we need to change the current selected Titanium SDK as part of that testing. No problem:
+
+```js
+grunt.initConfig({
+  titanium: {
+    options: {
+      command: 'sdk',
+      args: ['select', '3.2.0.GA']
+    }
+  }
+});
+
+Or we can tie multiple commands together. You could create temporary app for testing, run it for android and ios, then clean it afterwards:
+
+```js
+var APP_NAME = 'MyTestApp';
+grunt.initConfig({
+  titanium: {
+    create: {
+      options: {
+        command: 'create',
+        name: APP_NAME,
+        workspaceDir: '.'
+      }
+    },
+    build_ios: {
+      options: {
+        command: 'build',
+        projectDir: './' + APP_NAME,
+        platform: 'ios',
+        buildOnly: true
+      }
+    },
+    build_android: {
+      options: {
+        command: 'build',
+        projectDir: './' + APP_NAME,
+        platform: 'android'
+        buildOnly: true
+      }
+    },
+    clean: {
+      options: {
+        command: 'clean',
+        projectDir: './' + APP_NAME
+      }
+    }
+  }
+});
+
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
-
-## Release History
-_(Nothing yet)_
