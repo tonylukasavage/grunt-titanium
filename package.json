@@ -40,8 +40,8 @@
     "gruntplugin"
   ],
   "dependencies": {
-    "titanium": "~3.2.0",
     "lodash": "~2.4.1",
-    "async": "~0.2.9"
+    "async": "~0.2.9",
+    "titanium": "3.X"
   }
 }
