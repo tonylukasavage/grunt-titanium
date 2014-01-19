@@ -20,7 +20,7 @@ module.exports = function(grunt) {
       all: [
         'Gruntfile.js',
         'tasks/*.js',
-        '<%= nodeunit.tests %>',
+        'test/*_test.js',
       ],
       options: {
         jshintrc: '.jshintrc',
@@ -66,13 +66,22 @@ module.exports = function(grunt) {
           command: 'sdk',
           args: ['select', '3.2.0.GA']
         }
+      },
+
+      should_clean: {
+        options: {
+          command: 'clean',
+          projectDir: path.join('tmp', TEST_APP),
+          quiet: true
+        }
       }
 
     },
 
     // Unit tests.
     nodeunit: {
-      tests: ['test/*_test.js'],
+      main: ['test/main_test.js'],
+      clean: ['test/clean_test.js']
     },
 
   });
@@ -87,7 +96,8 @@ module.exports = function(grunt) {
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'titanium', 'nodeunit', 'clean']);
+  grunt.registerTask('test', ['clean', 'titanium:should_create', 'titanium:should_build', 'titanium:should_project',
+    'titanium:should_sdk', 'nodeunit:main', 'titanium:should_clean', 'nodeunit:clean', 'clean']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);

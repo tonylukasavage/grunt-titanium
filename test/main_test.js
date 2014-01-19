@@ -1,7 +1,6 @@
 'use strict';
 
 var exec = require('child_process').exec,
-  fs = require('fs'),
   grunt = require('grunt'),
   path = require('path');
 
