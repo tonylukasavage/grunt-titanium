@@ -117,7 +117,7 @@ grunt.initConfig({
 
 #### Execute arbitrary Titanium CLI commands
 
-Or try out some of the Titanium CLI's other commands. grunt-titanium can do anything the CLI can do, so feel free to be inventive. Let's say we have some automated testing and we need to change the current selected Titanium SDK as part of that testing. No problem:
+Try out some of the Titanium CLI's other commands. grunt-titanium can do anything the CLI can do, so feel free to be inventive. Let's say we have some automated testing and we need to change the current selected Titanium SDK as part of that testing. No problem:
 
 ```js
 grunt.initConfig({
@@ -132,7 +132,7 @@ grunt.initConfig({
 
 #### Chaining commands
 
-Or we can tie multiple commands together. You could create temporary app for testing, run it for android and ios, then clean it afterwards:
+We can tie multiple commands together. You could create temporary app for testing, run it for android and ios, then clean it afterwards:
 
 ```js
 var APP_NAME = 'MyTestApp';
