@@ -99,6 +99,8 @@ grunt.initConfig({
 });
 ```
 
+#### Build a project
+
 Let's say we wanted to build an app in a specific location. We could do it like this:
 
 ```js
@@ -112,6 +114,8 @@ grunt.initConfig({
   }
 });
 
+#### Execute arbitrary Titanium CLI commands
+
 Or try out some of the Titanium CLI's other commands. grunt-titanium can do anything the CLI can do, so feel free to be inventive. Let's say we have some automated testing and we need to change the current selected Titanium SDK as part of that testing. No problem:
 
 ```js
@@ -123,6 +127,8 @@ grunt.initConfig({
     }
   }
 });
+
+#### Chaining commands
 
 Or we can tie multiple commands together. You could create temporary app for testing, run it for android and ios, then clean it afterwards:
 
