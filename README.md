@@ -52,9 +52,11 @@ All the non-flag, non-option arguments to pass to the Titanium CLI. For example,
 ```javascript
 grunt.initConfig({
   titanium: {
-    options: {
-      command: 'sdk',
-      args: ['select', '3.2.0.GA']
+    all: {
+      options: {
+        command: 'sdk',
+        args: ['select', '3.2.0.GA']
+      }
     }
   }
 });
@@ -71,9 +73,11 @@ Flags like `--quiet` should be given a boolean value.
 ```js
 grunt.initConfig({
   titanium: {
-    options: {
-      command: 'clean',
-      quiet: false
+    all: {
+      options: {
+        command: 'clean',
+        quiet: false
+      }
     }
   }
 });
@@ -90,10 +94,12 @@ grunt-titanium makes it trivial to add creating a Titanium project to your workf
 ```js
 grunt.initConfig({
   titanium: {
-    options: {
-      command: 'create',
-      name: 'MyTestApp',
-      workspaceDir: '.'
+    all: {
+      options: {
+        command: 'create',
+        name: 'MyTestApp',
+        workspaceDir: '.'
+      }
     }
   }
 });
@@ -106,10 +112,12 @@ Let's say we wanted to build an app in a specific location. We could do it like 
 ```js
 grunt.initConfig({
   titanium: {
-    options: {
-      command: 'build',
-      projectDir: '/path/to/project',
-      platform: 'ios'
+    all: {
+      options: {
+        command: 'build',
+        projectDir: '/path/to/project',
+        platform: 'ios'
+      }
     }
   }
 });
@@ -122,9 +130,11 @@ Try out some of the Titanium CLI's other commands. grunt-titanium can do anythin
 ```js
 grunt.initConfig({
   titanium: {
-    options: {
-      command: 'sdk',
-      args: ['select', '3.2.0.GA']
+    all: {
+      options: {
+        command: 'sdk',
+        args: ['select', '3.2.0.GA']
+      }
     }
   }
 });
