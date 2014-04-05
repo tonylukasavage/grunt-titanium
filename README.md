@@ -191,3 +191,7 @@ Currently there's no reliable way to have a task follow a titanium build, unless
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+
+## Todo
+
+* Remove dependency on titanium in package.json. Allow developer to instead use whatever version they already have installed.
