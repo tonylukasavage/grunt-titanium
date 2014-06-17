@@ -38,7 +38,8 @@ module.exports = function(grunt) {
         options: {
           command: 'create',
           name: TEST_APP,
-          workspaceDir: 'tmp'
+          workspaceDir: 'tmp',
+          force: true
         }
       },
       should_build: {

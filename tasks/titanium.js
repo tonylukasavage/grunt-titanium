@@ -48,7 +48,7 @@ module.exports = function(grunt) {
           name: 'tmp',
           id: 'com.grunttitanium.tmp',
           workspaceDir: '.',
-          platforms: 'android,blackberry,ios,ipad,iphone,mobileweb,tizen',
+          platforms: 'android,blackberry,ios,ipad,iphone,mobileweb',
           quiet: true
         }, GLOBAL_FLAGS));
 
