@@ -49,7 +49,10 @@ module.exports = function(grunt) {
           id: 'com.grunttitanium.tmp',
           workspaceDir: '.',
           platforms: 'android,blackberry,ios,ipad,iphone,mobileweb',
-          quiet: true
+          sdk: 'latest',
+          url: '',
+          quiet: true,
+          force: false
         }, GLOBAL_FLAGS));
 
         // make sure options.platforms is a string
