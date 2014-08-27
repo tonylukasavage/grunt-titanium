@@ -24,6 +24,12 @@ var GLOBAL_FLAGS = {
 
 module.exports = function(grunt) {
 
+  grunt.registerMultiTask('titanium_launch', 'grunt plugin to create and launch a Titanium app', function() {
+
+    throw new Error('titanium_launch not yet implemented');
+
+  });
+
   grunt.registerMultiTask('titanium', 'grunt plugin for titanium CLI', function() {
 
     var command = this.options().command || 'build',

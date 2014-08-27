@@ -32,6 +32,26 @@ module.exports = function(grunt) {
       tests: ['tmp'],
     },
 
+    titanium_launch: {
+      test: {
+        options: {
+          name: 'test', // defaults to task name
+          dir: 'tmp',   // defaults to 'tmp'
+          quiet: true,  // true for create, false for build
+          force: true   // defaults to false
+        },
+        files: {
+          'tmp/test/Resources': ['test/fixtures/**/*.js']
+          // if empty, copy test/fixtures/{name||target}/**/* to {dir}/{name},
+          // if not that, copy test/fixtures/{name||target}.js to {dir}/{name}/Resources
+          // if not that, copy test/{name||target}/**/* to {dir}/{name}
+          // if not that, copy test/{name||target}.js to {dir}/{name}/Resources
+          // if not that, copy {name||target}/**/* to {dir}/{name}
+          // if not that, copy {name||target}.js to {dir}/{name}/Resources
+        }
+      }
+    },
+
     // Configuration to be run (and then tested).
     titanium: {
       should_create: {
