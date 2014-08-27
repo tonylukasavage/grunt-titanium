@@ -26,13 +26,13 @@ module.exports = function(grunt) {
 
   grunt.registerMultiTask('titanium', 'grunt plugin for titanium CLI', function() {
 
-    var TITANIUM = process.env.GRUNT_TITANIUM_TEST ? path.resolve('node_modules', '.bin', 'titanium') :
-      path.resolve('node_modules', 'grunt-titanium', 'node_modules', '.bin', 'titanium');
-
     var command = this.options().command || 'build',
       done = this.async(),
       extraArgs = [],
       options;
+
+    // remove command from options
+    grunt.option('command', undefined);
 
     // set default options based on command
     switch (command) {
@@ -62,16 +62,12 @@ module.exports = function(grunt) {
         break;
     }
 
-    extraArgs = options.args.slice(0);
-    delete options.args;
-    delete options.command;
-
-
+    // ensure login and execute the command
     async.series([
 
       // make sure the user is logged in
       function(callback) {
-        exec(TITANIUM + ' status -o json', function(err, stdout, stderr) {
+        exec(getTitaniumPath() + ' status -o json', function(err, stdout, stderr) {
           if (err) { return callback(err); }
           if (!JSON.parse(stdout).loggedIn) {
             grunt.fail.fatal([
@@ -84,37 +80,7 @@ module.exports = function(grunt) {
 
       // execute the titanium command
       function(callback) {
-        var args = [];
-
-        // create the list of command arguments
-        Object.keys(options).forEach(function(key) {
-          var value = options[key],
-            isBool = _.isBoolean(value);
-          if (!isBool || (isBool && !!value)) {
-            args.push(camelCaseToDash(key));
-          }
-          if (!isBool) { args.push(value); }
-        });
-        args.unshift(command);
-
-        // add non-option, non-flag arguments
-        args = args.concat(extraArgs);
-
-        // spawn command and output
-        grunt.log.writeln(TITANIUM + ' ' + args.join(' '));
-        var ti = spawn(TITANIUM, args);
-        ti.stdout.on('data', function(data) {
-          process.stdout.write(data);
-        });
-        ti.stderr.on('data', function(data) {
-          process.stdout.write(data);
-        });
-        ti.on('close', function(code) {
-          if (command !== 'build' || options.buildOnly) {
-            grunt.log[code ? 'error' : 'ok']('titanium ' + command + ' ' + (code ? 'failed' : 'complete') + '.');
-          }
-          return callback(code);
-        });
+        return execCommand(command, options, callback);
       }
 
     ], function(err, result) {
@@ -123,7 +89,51 @@ module.exports = function(grunt) {
 
   });
 
+  function execCommand(command, options, callback) {
+    var args = [],
+      extraArgs = options.args.slice(0);
+
+    // remove processed options
+    delete options.args;
+
+    // create the list of command arguments
+    Object.keys(options).forEach(function(key) {
+      var value = options[key],
+        isBool = _.isBoolean(value);
+      if (!isBool || (isBool && !!value)) {
+        args.push(camelCaseToDash(key));
+      }
+      if (!isBool) { args.push(value); }
+    });
+    args.unshift(command);
+
+    // add non-option, non-flag arguments
+    args = args.concat(extraArgs);
+
+    // spawn command and output
+    grunt.log.writeln('titanium ' + args.join(' '));
+    var ti = spawn(getTitaniumPath(), args);
+    ti.stdout.on('data', function(data) {
+      process.stdout.write(data);
+    });
+    ti.stderr.on('data', function(data) {
+      process.stdout.write(data);
+    });
+    ti.on('close', function(code) {
+      if (command !== 'build' || options.buildOnly) {
+        grunt.log[code ? 'error' : 'ok']('titanium ' + command + ' ' + (code ? 'failed' : 'complete') + '.');
+      }
+      return callback(code);
+    });
+  }
+
 };
+
+var TITANIUM;
+function getTitaniumPath() {
+  return TITANIUM || (process.env.GRUNT_TITANIUM_TEST ? path.resolve('node_modules', '.bin', 'titanium') :
+    path.resolve('node_modules', 'grunt-titanium', 'node_modules', '.bin', 'titanium'));
+}
 
 function camelCaseToDash(str) {
   if (typeof str !== 'string') { return str; }
