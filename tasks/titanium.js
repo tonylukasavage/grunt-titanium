@@ -12,6 +12,7 @@ var _ = require('lodash'),
 	async = require('async'),
 	child_process = require('child_process'),
 	exec = child_process.exec,
+	fs = require('fs-extra'),
 	path = require('path'),
 	spawn = child_process.spawn;
 
@@ -29,7 +30,8 @@ module.exports = function(grunt) {
 		// throw new Error('titanium_launch not yet implemented');
 
 		// set opts for create and build
-		var done = this.async(),
+		var self = this,
+			done = this.async(),
 			opts = this.options({
 				dir: 'tmp',
 				force: true,
@@ -63,6 +65,22 @@ module.exports = function(grunt) {
 		async.series([
 			ensureLogin,
 			function(callback) { return execCommand('create', createOpts, callback); },
+			function(callback) {
+
+				// copy all from "files" to destination
+				self.files.forEach(function(fileObj) {
+					var base = path.dirname(fileObj.orig.src),
+						match = base.match(/^([^\*]+)/),
+						relPath = match ? match[1] : '.';
+
+					fileObj.src.forEach(function(file) {
+						fs.copySync(file, path.join(fileObj.dest, path.relative(relPath, file)));
+					});
+				});
+
+				return callback();
+
+			},
 			function(callback) { return execCommand('build', buildOpts, callback); }
 		], done);
 
