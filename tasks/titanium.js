@@ -14,8 +14,10 @@ var _ = require('lodash'),
 	exec = child_process.exec,
 	fs = require('fs-extra'),
 	path = require('path'),
+	readdir = require('recursive-readdir'),
 	spawn = child_process.spawn;
 
+// global flags for titanium cli
 var GLOBAL_FLAGS = {
 	noBanner: true,
 	noProgressBars: true,
@@ -83,19 +85,44 @@ module.exports = function(grunt) {
 			function(callback) { return execCommand('create', createOpts, callback); },
 			function(callback) {
 
+				var dest = path.resolve(buildOpts.projectDir, 'Resources'),
+					appJs = path.resolve(dest, 'app.js'),
+					theSrc;
+
+				// if there's no self.files, let's try some default locations
+				if (!self.files || !self.files.length) {
+					if (fs.isDirectory(theSrc = path.resolve('test','fixtures',opts.name))) {
+						copyToApp(theSrc, dest, callback);
+					} else if (fs.isFile(theSrc = path.resolve('test','fixtures',opts.name + '.js'))) {
+						fs.copySync(theSrc, appJs);
+					} else if (fs.isDirectory(theSrc = path.resolve('test',opts.name))) {
+						copyToApp(theSrc, dest, callback);
+					} else if (fs.isFile(theSrc = path.resolve('test',opts.name + '.js'))) {
+						fs.copySync(theSrc, appJs);
+					} else if (fs.isDirectory(theSrc = path.resolve(opts.name))) {
+						copyToApp(theSrc, dest, callback);
+					} else if (fs.isFile(theSrc = path.resolve(opts.name + '.js'))) {
+						fs.copySync(theSrc, appJs);
+					} else {
+						grunt.fail.warn('no files for titanium_launch:' + self.target);
+					}
+				}
+
 				// copy all from "files" to destination
-				self.files.forEach(function(fileObj) {
-					var base = path.dirname(fileObj.orig.src),
-						match = base.match(/^([^\*]+)/),
-						relPath = match ? match[1] : '.',
-						dest = fileObj.dest || path.join(buildOpts.projectDir, 'Resources');
+				else {
+					self.files.forEach(function(fileObj) {
+						var base = path.dirname(fileObj.orig.src),
+							match = base.match(/^([^\*]+)/),
+							relPath = match ? match[1] : '.',
+							dest = fileObj.dest || dest;
 
-					fileObj.src.forEach(function(file) {
-						fs.copySync(file, path.join(dest, path.relative(relPath, file)));
+						fileObj.src.forEach(function(file) {
+							fs.copySync(file, path.resolve(dest, path.relative(relPath, file)));
+						});
 					});
-				});
 
-				return callback();
+					return callback();
+				}
 
 			},
 			function(callback) { return execCommand('build', buildOpts, callback); }
@@ -211,6 +238,16 @@ var TITANIUM;
 function getTitaniumPath() {
 	return TITANIUM || (process.env.GRUNT_TITANIUM_TEST ? path.resolve('node_modules', '.bin', 'titanium') :
 		path.resolve('node_modules', 'grunt-titanium', 'node_modules', '.bin', 'titanium'));
+}
+
+function copyToApp(src, dest, callback) {
+	readdir(src, function(err, files) {
+		if (err) { return callback(err); }
+		files.forEach(function(file) {
+			fs.copySync(file, path.resolve(dest, path.relative(src, file)));
+		});
+		return callback();
+	});
 }
 
 function camelCaseToDash(str) {
