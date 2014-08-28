@@ -4,6 +4,6 @@ var win = Ti.UI.createWindow({
 	fullscreen: false
 });
 win.add(Ti.UI.createLabel({
-	text: 'it works!'
+	text: require('foo/bar')
 }));
 win.open();
