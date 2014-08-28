@@ -39,6 +39,12 @@ module.exports = function(grunt) {
 
 	grunt.registerMultiTask('titanium_launch', 'grunt plugin to create and launch a Titanium app', function() {
 
+		// the task just an array of targets?
+		if (_.isString(this.data)) {
+			this.target = this.data;
+			this.files = [];
+		}
+
 		// set opts for create and build
 		var self = this,
 			done = this.async(),
