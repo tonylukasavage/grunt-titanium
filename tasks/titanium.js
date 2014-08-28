@@ -27,8 +27,6 @@ module.exports = function(grunt) {
 
 	grunt.registerMultiTask('titanium_launch', 'grunt plugin to create and launch a Titanium app', function() {
 
-		// throw new Error('titanium_launch not yet implemented');
-
 		// set opts for create and build
 		var self = this,
 			done = this.async(),
