@@ -35,10 +35,10 @@ module.exports = function(grunt) {
     titanium_launch: {
       test: {
         options: {
-          name: 'test', // defaults to task name
-          dir: 'tmp',   // defaults to 'tmp'
-          quiet: true,  // true for create, false for build
-          force: true   // defaults to false
+          // name: 'whitney', // defaults to task name
+          // dir: 'tmp',   // defaults to 'tmp'
+          // quiet: true,  // true for create, false for build
+          // force: true   // defaults to false
         },
         files: {
           'tmp/test/Resources': ['test/fixtures/**/*.js']
@@ -113,6 +113,8 @@ module.exports = function(grunt) {
   grunt.registerTask('test-env', function() {
     process.env.GRUNT_TITANIUM_TEST = '1';
   });
+
+  grunt.registerTask('testl', ['test-env', 'titanium_launch']);
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
