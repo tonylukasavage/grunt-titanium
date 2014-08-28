@@ -36,12 +36,6 @@ module.exports = function(grunt) {
       test: {
         files: {
           'tmp/test/Resources': ['test/fixtures/**/*.js']
-          // if empty, copy test/fixtures/{name||target}/**/* to {dir}/{name},
-          // if not that, copy test/fixtures/{name||target}.js to {dir}/{name}/Resources
-          // if not that, copy test/{name||target}/**/* to {dir}/{name}
-          // if not that, copy test/{name||target}.js to {dir}/{name}/Resources
-          // if not that, copy {name||target}/**/* to {dir}/{name}
-          // if not that, copy {name||target}.js to {dir}/{name}/Resources
         }
       }
     },
