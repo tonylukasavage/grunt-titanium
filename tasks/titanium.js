@@ -67,14 +67,18 @@ module.exports = function(grunt) {
 			function(callback) { return execCommand('create', createOpts, callback); },
 			function(callback) {
 
+				console.log(self.filesSrc);
+				console.log(self.files);
+
 				// copy all from "files" to destination
 				self.files.forEach(function(fileObj) {
 					var base = path.dirname(fileObj.orig.src),
 						match = base.match(/^([^\*]+)/),
-						relPath = match ? match[1] : '.';
+						relPath = match ? match[1] : '.',
+						dest = fileObj.dest || path.join(buildOpts.projectDir, 'Resources');
 
 					fileObj.src.forEach(function(file) {
-						fs.copySync(file, path.join(fileObj.dest, path.relative(relPath, file)));
+						fs.copySync(file, path.join(dest, path.relative(relPath, file)));
 					});
 				});
 
