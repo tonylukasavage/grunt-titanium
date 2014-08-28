@@ -23,6 +23,18 @@ var GLOBAL_FLAGS = {
 	args: []
 };
 
+// extend fs-extra a bit
+['File','Directory'].forEach(function(type) {
+	var func = 'is' + type;
+	fs[func] = function(o) {
+		try {
+			return fs.statSync(o)[func]();
+		} catch (e) {
+			return false;
+		}
+	};
+});
+
 module.exports = function(grunt) {
 
 	grunt.registerMultiTask('titanium_launch', 'grunt plugin to create and launch a Titanium app', function() {
