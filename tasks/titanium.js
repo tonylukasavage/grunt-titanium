@@ -67,9 +67,6 @@ module.exports = function(grunt) {
 			function(callback) { return execCommand('create', createOpts, callback); },
 			function(callback) {
 
-				console.log(self.filesSrc);
-				console.log(self.files);
-
 				// copy all from "files" to destination
 				self.files.forEach(function(fileObj) {
 					var base = path.dirname(fileObj.orig.src),
