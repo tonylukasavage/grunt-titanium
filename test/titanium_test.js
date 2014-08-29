@@ -54,7 +54,7 @@ exports.titanium = {
       var json = JSON.parse(stdout);
       test.ok(json);
       test.ok(json.activeSDK);
-      test.equal(json.activeSDK, '3.2.0.GA');
+      test.equal(json.activeSDK, '3.3.0.GA');
 
       test.done();
     });
