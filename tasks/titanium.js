@@ -103,8 +103,7 @@ module.exports = function(grunt) {
 						path.resolve('test', opts.name + '.js'),
 						path.resolve(opts.name),
 						path.resolve(opts.name + '.js')
-					],
-					theSrc;
+					];
 
 
 				// if there's no self.files, let's try some default locations
