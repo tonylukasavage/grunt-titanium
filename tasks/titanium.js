@@ -51,13 +51,15 @@ module.exports = function(grunt) {
 		var self = this,
 			done = this.async(),
 			opts = this.options({
+				build: {},
+				create: {},
 				dir: 'tmp',
 				force: true,
 				logLevel: 'info',
 				name: this.target,
 				quiet: false
 			}),
-			createOpts = {
+			createOpts = _.extend({
 				name: opts.name,
 				id: opts.id || 'grunttitanium.' + opts.name,
 				platforms: 'android,blackberry,ios,ipad,iphone,mobileweb',
@@ -67,17 +69,16 @@ module.exports = function(grunt) {
 				noBanner: true,
 				noProgressBars: true,
 				noPrompt: true
-			},
-			buildOpts = {
+			}, opts.create),
+			buildOpts = _.extend({
 				logLevel: opts.logLevel,
 				platform: process.platform === 'darwin' ? 'ios' : 'android',
 				projectDir: path.resolve(opts.dir, createOpts.name),
 				quiet: opts.quiet,
 				noBanner: true,
 				noProgressBars: true,
-				noPrompt: true,
-				iosVersion: '7.1'
-			};
+				noPrompt: true
+			}, opts.build);
 
 		// ensure login, create app, build/run app
 		async.series([
