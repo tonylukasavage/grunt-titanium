@@ -35,7 +35,7 @@ module.exports = function(grunt) {
       tests: ['tmp'],
     },
 
-    // titanium_launch: {
+    // titanium_run: {
     //   test: {
     //     files: {
     //       'tmp/test/Resources': ['test/fixtures/explicit/**/*.js']
@@ -43,8 +43,8 @@ module.exports = function(grunt) {
     //   }
     // },
 
-    // titanium_launch task tests
-    titanium_launch: {
+    // titanium_run task tests
+    titanium_run: {
       options: {
         build: {
           iosVersion: '7.1',
@@ -55,7 +55,7 @@ module.exports = function(grunt) {
       test: {}
     },
 
-    // titanium_launch: [ 'explicit' ],
+    // titanium_run: [ 'explicit' ],
 
     // titanium task tests
     titanium: {
@@ -115,8 +115,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
-  // test titanium_launch
-  grunt.registerTask('testl', ['env', 'titanium_launch:explicit']);
+  // test titanium_run
+  grunt.registerTask('testl', ['env', 'titanium_run:explicit']);
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.

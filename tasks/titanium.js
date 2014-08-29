@@ -39,7 +39,7 @@ var GLOBAL_FLAGS = {
 
 module.exports = function(grunt) {
 
-	grunt.registerMultiTask('titanium_launch', 'grunt plugin to create and launch a Titanium app', function() {
+	grunt.registerMultiTask('titanium_run', 'grunt plugin to create and launch a Titanium app', function() {
 
 		// the task just an array of targets?
 		if (_.isString(this.data)) {
@@ -112,7 +112,7 @@ module.exports = function(grunt) {
 							return copyToApp(loc, dest, callback);
 						}
 					}
-					grunt.fail.warn('no files for titanium_launch:' + self.target);
+					grunt.fail.warn('no files for titanium_run:' + self.target);
 				}
 
 				// copy all from "files" to destination
