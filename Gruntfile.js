@@ -26,8 +26,11 @@ module.exports = function(grunt) {
         jshintrc: '.jshintrc',
       },
     },
-
-    // Before generating any new files, remove any previously-created files.
+    env: {
+      dev: {
+        GRUNT_TITANIUM_TEST: '1'
+      }
+    },
     clean: {
       tests: ['tmp'],
     },
@@ -93,21 +96,18 @@ module.exports = function(grunt) {
   grunt.loadTasks('tasks');
 
   // These plugins provide necessary tasks.
+  grunt.loadNpmTasks('grunt-env');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
-  // install in a Titanium project, if present
-  grunt.registerTask('test-env', function() {
-    process.env.GRUNT_TITANIUM_TEST = '1';
-  });
-
-  grunt.registerTask('testl', ['test-env', 'titanium_launch']);
+  // test titanium_launch
+  grunt.registerTask('testl', ['env', 'titanium_launch:explicit']);
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['test-env', 'titanium:should_create', 'titanium:should_build', 'titanium:should_project',
-    'titanium:should_sdk', 'nodeunit:main', 'titanium:should_clean', 'nodeunit:clean', 'clean']);
+  grunt.registerTask('test', ['env', 'titanium:should_create', 'titanium:should_build', 'titanium:should_project',
+    'titanium:should_sdk', 'nodeunit:titanium', 'titanium:should_clean', 'nodeunit:clean', 'clean']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);
