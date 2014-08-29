@@ -39,7 +39,15 @@ var GLOBAL_FLAGS = {
 
 module.exports = function(grunt) {
 
-	grunt.registerMultiTask('titanium_run', 'grunt plugin to create and launch a Titanium app', function() {
+	var descr = 'grunt plugin to create and launch a Titanium app';
+	grunt.registerMultiTask('titanium_run', descr, executeTitaniumRun);
+	grunt.registerMultiTask('ti_run', descr, executeTitaniumRun);
+
+	descr = 'grunt plugin for titanium CLI';
+	grunt.registerMultiTask('titanium', descr, executeTitanium);
+	grunt.registerMultiTask('ti', descr, executeTitanium);
+
+	function executeTitaniumRun() {
 
 		// the task just an array of targets?
 		if (_.isString(this.data)) {
@@ -135,9 +143,9 @@ module.exports = function(grunt) {
 			function(callback) { return execCommand('build', buildOpts, callback); }
 		], done);
 
-	});
+	}
 
-	grunt.registerMultiTask('titanium', 'grunt plugin for titanium CLI', function() {
+	function executeTitanium() {
 
 		var command = this.options().command || 'build',
 			done = this.async(),
@@ -185,7 +193,7 @@ module.exports = function(grunt) {
 			return done(err);
 		});
 
-	});
+	}
 
 	// execute titanium commands
 	function execCommand(command, options, callback) {

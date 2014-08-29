@@ -66,7 +66,7 @@ module.exports = function(grunt) {
     },
 
     // should use "test/app.js" and copy to "tmp/test/Resources/app.js"
-    //ti_run: [ 'app' ],
+    ti_run: [ 'app' ],
 
     // titanium task tests
     titanium: {
@@ -94,17 +94,20 @@ module.exports = function(grunt) {
           args: ['sdk-version', '3.2.0.GA']
         }
       },
-      should_sdk: {
-        options: {
-          command: 'sdk',
-          args: ['select', '3.2.0.GA']
-        }
-      },
       should_clean: {
         options: {
           command: 'clean',
           projectDir: path.join('tmp', TEST_APP),
           quiet: true
+        }
+      }
+    },
+
+    ti: {
+      should_sdk: {
+        options: {
+          command: 'sdk',
+          args: ['select', '3.3.0.GA']
         }
       }
     },
@@ -127,12 +130,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
   // test titanium_run
-  grunt.registerTask('testl', ['env', 'titanium_run']);
+  grunt.registerTask('testl', ['env', 'titanium_run', 'ti_run']);
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
   grunt.registerTask('test', ['env', 'titanium:should_create', 'titanium:should_build',
-    'titanium:should_project', 'titanium:should_sdk', 'nodeunit:titanium',
+    'titanium:should_project', 'ti:should_sdk', 'nodeunit:titanium',
     'titanium:should_clean', 'nodeunit:clean', 'clean']);
 
   // By default, lint and run all tests.
