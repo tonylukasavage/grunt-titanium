@@ -39,7 +39,6 @@ module.exports = function(grunt) {
     titanium_run: {
       options: {
         build: {
-          iosVersion: '7.1',
           buildOnly: true
         },
         quiet: true
@@ -55,6 +54,18 @@ module.exports = function(grunt) {
         options: {
           name: 'anothertest'
         }
+      }
+
+    },
+
+    // should use "test/app.js" and copy to "tmp/test/Resources/app.js"
+    ti_run: {
+
+      options: {
+        build: {
+          buildOnly: true
+        },
+        quiet: true
       },
 
       // should use "files" destination and source(s)
@@ -63,10 +74,8 @@ module.exports = function(grunt) {
           'tmp/test/Resources': ['test/fixtures/explicit/**/*.js']
         }
       }
-    },
 
-    // should use "test/app.js" and copy to "tmp/test/Resources/app.js"
-    ti_run: [ 'app' ],
+    },
 
     // titanium task tests
     titanium: {
@@ -115,6 +124,7 @@ module.exports = function(grunt) {
     // unit tests
     nodeunit: {
       titanium: ['test/titanium_test.js'],
+      titanium_run: ['test/titanium_run_test.js'],
       clean: ['test/clean_test.js']
     },
 
@@ -129,14 +139,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
-  // test titanium_run
-  grunt.registerTask('testl', ['env', 'titanium_run', 'ti_run']);
-
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
   grunt.registerTask('test', ['env', 'titanium:should_create', 'titanium:should_build',
     'titanium:should_project', 'ti:should_config', 'nodeunit:titanium',
-    'titanium:should_clean', 'nodeunit:clean', 'clean']);
+    'titanium:should_clean', 'titanium_run', 'ti_run', 'nodeunit:titanium_run',
+    'nodeunit:clean', 'clean']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);
