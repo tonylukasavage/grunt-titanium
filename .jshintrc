@@ -10,5 +10,6 @@
   "boss": true,
   "eqnull": true,
   "node": true,
-  "-W018": false
+  "-W018": false,
+  "-W040": false
 }
