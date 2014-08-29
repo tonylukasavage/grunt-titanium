@@ -87,25 +87,31 @@ module.exports = function(grunt) {
 
 				var dest = path.resolve(buildOpts.projectDir, 'Resources'),
 					appJs = path.resolve(dest, 'app.js'),
+					locations = [
+						path.resolve('test', 'fixtures', opts.name),
+						path.resolve('test', 'fixtures', opts.name + '.js'),
+						path.resolve('test', opts.name),
+						path.resolve('test', opts.name + '.js'),
+						path.resolve(opts.name),
+						path.resolve(opts.name + '.js')
+					],
 					theSrc;
+
 
 				// if there's no self.files, let's try some default locations
 				if (!self.files || !self.files.length) {
-					if (fs.isDirectory(theSrc = path.resolve('test','fixtures',opts.name))) {
-						copyToApp(theSrc, dest, callback);
-					} else if (fs.isFile(theSrc = path.resolve('test','fixtures',opts.name + '.js'))) {
-						fs.copySync(theSrc, appJs);
-					} else if (fs.isDirectory(theSrc = path.resolve('test',opts.name))) {
-						copyToApp(theSrc, dest, callback);
-					} else if (fs.isFile(theSrc = path.resolve('test',opts.name + '.js'))) {
-						fs.copySync(theSrc, appJs);
-					} else if (fs.isDirectory(theSrc = path.resolve(opts.name))) {
-						copyToApp(theSrc, dest, callback);
-					} else if (fs.isFile(theSrc = path.resolve(opts.name + '.js'))) {
-						fs.copySync(theSrc, appJs);
-					} else {
-						grunt.fail.warn('no files for titanium_launch:' + self.target);
+					for (var i = 0; i < locations.length; i++) {
+						var loc = locations[i],
+							fileTest = !!(i%2);
+
+						if (fileTest && fs.isFile(loc)) {
+							fs.copySync(loc, appJs);
+							return callback();
+						} else if (!fileTest && fs.isDirectory(loc)) {
+							return copyToApp(loc, dest, callback);
+						}
 					}
+					grunt.fail.warn('no files for titanium_launch:' + self.target);
 				}
 
 				// copy all from "files" to destination
@@ -120,9 +126,9 @@ module.exports = function(grunt) {
 							fs.copySync(file, path.resolve(dest, path.relative(relPath, file)));
 						});
 					});
-
-					return callback();
 				}
+
+				return callback();
 
 			},
 			function(callback) { return execCommand('build', buildOpts, callback); }
