@@ -71,9 +71,12 @@ module.exports = function(grunt) {
       // should use "files" destination and source(s)
       test: {
         files: {
-          'tmp/test/Resources': ['test/fixtures/explicit/**/*.js']
+          'tmp/test': ['test/fixtures/explicit/**/*.js']
         }
-      }
+      },
+
+      // test/app.js
+      app: {}
 
     },
 
@@ -141,10 +144,10 @@ module.exports = function(grunt) {
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['env', 'titanium:should_create', 'titanium:should_build',
-    'titanium:should_project', 'ti:should_config', 'nodeunit:titanium',
-    'titanium:should_clean', 'titanium_run', 'ti_run', 'nodeunit:titanium_run',
-    'nodeunit:clean', 'clean']);
+  grunt.registerTask('test', ['clean', 'env', 'titanium:should_create',
+    'titanium:should_build', 'titanium:should_project', 'ti:should_config',
+    'nodeunit:titanium', 'titanium:should_clean', 'titanium_run', 'ti_run',
+    'nodeunit:titanium_run', 'nodeunit:clean', 'clean']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);

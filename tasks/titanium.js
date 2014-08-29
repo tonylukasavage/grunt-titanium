@@ -116,7 +116,7 @@ module.exports = function(grunt) {
 							fs.copySync(loc, appJs);
 							return callback();
 						} else if (!fileTest && fs.isDirectory(loc)) {
-							return copyToApp(loc, dest, callback);
+							return copyToApp(loc, path.join(dest, '..'), callback);
 						}
 					}
 					grunt.fail.warn('no files for titanium_run:' + self.target);
