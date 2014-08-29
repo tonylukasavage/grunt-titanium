@@ -111,7 +111,7 @@ module.exports = function(grunt) {
 
     // unit tests
     nodeunit: {
-      main: ['test/main_test.js'],
+      titanium: ['test/titanium_test.js'],
       clean: ['test/clean_test.js']
     },
 
