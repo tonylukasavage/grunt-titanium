@@ -35,16 +35,29 @@ module.exports = function(grunt) {
       tests: ['tmp'],
     },
 
+    // titanium_launch: {
+    //   test: {
+    //     files: {
+    //       'tmp/test/Resources': ['test/fixtures/explicit/**/*.js']
+    //     }
+    //   }
+    // },
+
+    // titanium_launch task tests
     titanium_launch: {
       options: {
         build: {
           iosVersion: '7.1',
           buildOnly: true
         }
-      }
+      },
+      explicit: {},
+      test: {}
     },
 
-    // Configuration to be run (and then tested).
+    // titanium_launch: [ 'explicit' ],
+
+    // titanium task tests
     titanium: {
       should_create: {
         options: {
