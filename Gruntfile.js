@@ -35,27 +35,38 @@ module.exports = function(grunt) {
       tests: ['tmp'],
     },
 
-    // titanium_run: {
-    //   test: {
-    //     files: {
-    //       'tmp/test/Resources': ['test/fixtures/explicit/**/*.js']
-    //     }
-    //   }
-    // },
-
     // titanium_run task tests
     titanium_run: {
       options: {
         build: {
           iosVersion: '7.1',
           buildOnly: true
+        },
+        quiet: true
+      },
+
+      // should use "test/fixtures/explicit/**/*" files and copy
+      // them to "tmp/explicit/Resources/"
+      explicit: {},
+
+      // should use "test/fixtures/test.js" and copy it to
+      // "tmp/test/Resources/app.js"
+      anothertest: {
+        options: {
+          name: 'anothertest'
         }
       },
-      explicit: {},
-      test: {}
+
+      // should use "files" destination and source(s)
+      test: {
+        files: {
+          'tmp/test/Resources': ['test/fixtures/explicit/**/*.js']
+        }
+      }
     },
 
-    // titanium_run: [ 'explicit' ],
+    // should use "test/app.js" and copy to "tmp/test/Resources/app.js"
+    //ti_run: [ 'app' ],
 
     // titanium task tests
     titanium: {
