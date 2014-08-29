@@ -36,9 +36,10 @@ module.exports = function(grunt) {
     },
 
     titanium_launch: {
-      test: {
-        files: {
-          'tmp/test/Resources': ['test/fixtures/**/*.js']
+      options: {
+        build: {
+          iosVersion: '7.1',
+          buildOnly: true
         }
       }
     },
