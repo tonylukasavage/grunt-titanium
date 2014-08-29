@@ -104,10 +104,10 @@ module.exports = function(grunt) {
     },
 
     ti: {
-      should_sdk: {
+      should_config: {
         options: {
-          command: 'sdk',
-          args: ['select', '3.3.0.GA']
+          command: 'config',
+          args: ['grunt.titanium', 1]
         }
       }
     },
@@ -135,7 +135,7 @@ module.exports = function(grunt) {
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
   grunt.registerTask('test', ['env', 'titanium:should_create', 'titanium:should_build',
-    'titanium:should_project', 'ti:should_sdk', 'nodeunit:titanium',
+    'titanium:should_project', 'ti:should_config', 'nodeunit:titanium',
     'titanium:should_clean', 'nodeunit:clean', 'clean']);
 
   // By default, lint and run all tests.

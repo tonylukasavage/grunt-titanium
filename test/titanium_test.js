@@ -44,19 +44,19 @@ exports.titanium = {
 
     test.done();
   },
-  should_sdk: function(test) {
-    test.expect(5);
+  should_config: function(test) {
+    test.expect(4);
 
-    var bin = path.join(__dirname, '..', 'node_modules', '.bin', 'titanium');
-    exec('"' + bin + '" sdk list --output json', function(err, stdout, stderr) {
+    var bin = '"' + path.join(__dirname, '..', 'node_modules', '.bin', 'titanium') + '"';
+    exec(bin + ' config grunt.titanium', function(err, stdout) {
       test.ok(!err);
       test.ok(stdout);
-      var json = JSON.parse(stdout);
-      test.ok(json);
-      test.ok(json.activeSDK);
-      test.equal(json.activeSDK, '3.3.0.GA');
+      test.ok(stdout.trim() === '1');
 
-      test.done();
+      exec(bin + ' config grunt.titanium --remove', function(err, stdout) {
+        test.ok(!err);
+        test.done();
+      });
     });
   }
 };
