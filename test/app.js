@@ -1,0 +1,1 @@
+alert('test/app.js');
