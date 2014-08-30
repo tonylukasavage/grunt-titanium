@@ -21,7 +21,7 @@ grunt.loadNpmTasks('grunt-titanium');
 
 grunt-titanium sits on top of your [Titanium SDK](http://www.appcelerator.com/titanium/) installation. It won't install the SDK for you. It won't install Android, iOS, etc... for you. Be sure your Titanium environment is setup before trying to use this plugin as part of your development workflow.
 
-## The "titanium" task
+## The "titanium" or "ti" task
 
 ### Overview
 In your project's Gruntfile, add a section named `titanium` to the data object passed into `grunt.initConfig()`.
@@ -87,9 +87,101 @@ grunt.initConfig({
 });
 ```
 
+## The "titanium_run" or "ti_run" task
+
+This task will quickly create a Titanium app, add project files to it, then run it.
+
+### Overview
+In your project's Gruntfile, add a section named `titanium` to the data object passed into `grunt.initConfig()`.
+
+```js
+grunt.initConfig({
+  ti_run: {
+    options: {
+      // Task-specific options go here.
+    },
+    your_target: {
+      // Target-specific file lists and/or options go here.
+    },
+  },
+});
+```
+
+### Options
+
+#### options.build
+Type: `Object`
+Default value: `{}`
+
+An object full options to be passed to the `titanium build` command. This option list is identical to how you would pass options in the titanium task.
+
+#### options.create
+Type: `Object`
+Default value: `{}`
+
+An object full options to be passed to the `titanium create` command. This option list is identical to how you would pass options in the titanium task.
+
+#### options.dir
+Type: `String`
+Default value: `tmp`
+
+The directory in which to store the created project.
+
+#### options.name
+Type: `String`
+
+The name of the project to create. If not specified, the name of the grunt target will be used.
+
+#### option.quiet
+Type: `Boolean`
+Default value: `false`
+
+Set to true if you want to make both the create and build process quiet.
+
 ### Usage Examples
 
 There's a few practical usage examples in this repo's [Gruntfile.js](Gruntfile.js). Also, [ti-mocha's Gruntfile.js](https://github.com/tonylukasavage/ti-mocha/blob/master/Gruntfile.js) uses grunt-titanium to automate the launching of runtime testing. Aside from that, here's a few more examples. Note that grunt-titanium will use sensible defaults for many required CLI parameters.
+
+#### Create, add files, and run a project
+
+Before getting into the individual command you can run with the `titanium` task, let's look at the most common use case with `titanium_run`. Here we will create a new titanium app, add files to it using grunt's file capabilities, then build the app.
+
+```js
+grunt.initConfig({
+  ti_run: {
+    options: {
+      build: {
+        platform: 'ios'
+      }
+    },
+    myapp: {
+      files: {
+        'tmp/myapp': ['test/fixtures/myapp/**/*']
+      }
+    }
+  }
+});
+```
+
+But the `ti-run` task tries to make a lot of smart decisions for you, so the above could also be defined as tersely as this:
+
+```js
+grunt.initConfig({
+  ti_run: {
+    myapp: {}
+  }
+});
+```
+
+or even more tersely:
+
+```js
+grunt.initConfig({
+  ti_run: ['myapp']
+});
+```
+
+For details on the multiple default locations that `ti_run` will check for files, please read [issue #12](https://github.com/tonylukasavage/grunt-titanium/issues/12). Using these locations will make your Gruntfile.js much cleaner.
 
 #### Create a project
 
@@ -192,6 +284,3 @@ Currently there's no reliable way to have a task follow a titanium build, unless
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
-## Todo
-
-* Remove dependency on titanium in package.json. Allow developer to instead use whatever version they already have installed.
