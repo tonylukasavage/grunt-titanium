@@ -130,6 +130,16 @@ module.exports = function(grunt) {
 							relPath = match ? match[1] : '.',
 							dest = fileObj.dest || dest;
 
+						if (match) {
+							fileObj.src.forEach(function(file) {
+								fs.copySync(file, path.resolve(dest, path.relative(relPath, file)));
+							});
+						} else {
+							fileObj.src.forEach(function(file) {
+								fs.copySync(file, path.resolve(dest, path.basename(file)));
+							});
+						}
+
 						fileObj.src.forEach(function(file) {
 							fs.copySync(file, path.resolve(dest, path.relative(relPath, file)));
 						});
