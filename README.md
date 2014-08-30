@@ -91,22 +91,6 @@ grunt.initConfig({
 
 This task will quickly create a Titanium app, add project files to it, then run it.
 
-### Overview
-In your project's Gruntfile, add a section named `titanium` to the data object passed into `grunt.initConfig()`.
-
-```js
-grunt.initConfig({
-  ti_run: {
-    options: {
-      // Task-specific options go here.
-    },
-    your_target: {
-      // Target-specific file lists and/or options go here.
-    },
-  },
-});
-```
-
 ### Options
 
 #### options.build
