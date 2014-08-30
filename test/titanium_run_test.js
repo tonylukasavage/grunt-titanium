@@ -9,10 +9,7 @@ var TEST_APP = 'grunt-titanium-app',
   appPath = path.resolve('tmp', TEST_APP);
 
 exports.titanium = {
-  // setUp: function(done) {
-  //   grunt.file.mkdir(path.resolve('tmp'));
-  //   done();
-  // },
+
   explicit: function(test) {
     test.expect(6);
 
