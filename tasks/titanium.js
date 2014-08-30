@@ -132,10 +132,12 @@ module.exports = function(grunt) {
 
 						if (match) {
 							fileObj.src.forEach(function(file) {
+								console.log(file + ' --> ' + path.resolve(dest, path.relative(relPath, file)));
 								fs.copySync(file, path.resolve(dest, path.relative(relPath, file)));
 							});
 						} else {
 							fileObj.src.forEach(function(file) {
+								console.log(file + ' --> ' + path.resolve(dest, path.basename(file)));
 								fs.copySync(file, path.resolve(dest, path.basename(file)));
 							});
 						}
