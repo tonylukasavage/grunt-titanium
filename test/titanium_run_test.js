@@ -70,4 +70,21 @@ exports.titanium = {
 
     test.done();
   },
+  onemore: function(test) {
+    test.expect(8);
+
+    var root = path.resolve('tmp', 'onemore'),
+      resources = path.join(root, 'Resources');
+
+    test.ok(grunt.file.exists(path.join(resources, 'app.js')));
+    test.ok(grunt.file.exists(path.join(resources, 'Gruntfile.js')));
+    test.ok(grunt.file.exists(path.join(resources, 'package.json')));
+    test.ok(grunt.file.exists(path.join(resources, 'titanium_run_test.js')));
+    test.ok(grunt.file.exists(path.join(resources, 'titanium_test.js')));
+    test.ok(grunt.file.exists(path.join(root, 'build', 'iphone')));
+    test.ok(grunt.file.exists(path.join(root, 'build', 'iphone', 'onemore.xcodeproj')));
+    test.ok(grunt.file.exists(path.join(root, 'build', 'iphone', 'build', 'onemore.build')));
+
+    test.done();
+  }
 };

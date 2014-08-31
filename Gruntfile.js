@@ -71,12 +71,18 @@ module.exports = function(grunt) {
       // should use "files" destination and source(s)
       test: {
         files: {
-          'tmp/test': ['test/fixtures/explicit/**/*.js']
+          'tmp/test': ['test/fixtures/explicit/*']
         }
       },
 
       // test/app.js
-      app: {}
+      app: {},
+
+      onemore: {
+        files: {
+          'tmp/onemore/Resources': ['test/titanium*', 'Gruntfile.js', 'package.json', 'fixtures/anothertest.js']
+        }
+      }
 
     },
 

@@ -125,25 +125,9 @@ module.exports = function(grunt) {
 				// copy all from "files" to destination
 				else {
 					self.files.forEach(function(fileObj) {
-						var base = path.dirname(fileObj.orig.src),
-							match = base.match(/^([^\*]+)/),
-							relPath = match ? match[1] : '.',
-							dest = fileObj.dest || dest;
-
-						if (match) {
-							fileObj.src.forEach(function(file) {
-								console.log(file + ' --> ' + path.resolve(dest, path.relative(relPath, file)));
-								fs.copySync(file, path.resolve(dest, path.relative(relPath, file)));
-							});
-						} else {
-							fileObj.src.forEach(function(file) {
-								console.log(file + ' --> ' + path.resolve(dest, path.basename(file)));
-								fs.copySync(file, path.resolve(dest, path.basename(file)));
-							});
-						}
-
+						var dest = fileObj.dest || dest;
 						fileObj.src.forEach(function(file) {
-							fs.copySync(file, path.resolve(dest, path.relative(relPath, file)));
+							fs.copySync(file, path.resolve(dest, path.basename(file)));
 						});
 					});
 				}
