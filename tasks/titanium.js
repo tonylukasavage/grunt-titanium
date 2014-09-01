@@ -231,7 +231,7 @@ module.exports = function(grunt) {
 
 	// ensure appc user is logged in
 	function ensureLogin(callback) {
-		exec(getTitaniumPath() + ' status -o json', function(err, stdout, stderr) {
+		exec('"' + getTitaniumPath() + '" status -o json', function(err, stdout, stderr) {
 			if (err) { return callback(err); }
 			if (!JSON.parse(stdout).loggedIn) {
 				grunt.fail.fatal([
