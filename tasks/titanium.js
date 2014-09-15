@@ -214,13 +214,7 @@ module.exports = function(grunt) {
 
 		// spawn command and output
 		grunt.log.writeln('titanium ' + args.join(' '));
-		var ti = spawn(getTitaniumPath(), args);
-		ti.stdout.on('data', function(data) {
-			process.stdout.write(data);
-		});
-		ti.stderr.on('data', function(data) {
-			process.stdout.write(data);
-		});
+		var ti = spawn(getTitaniumPath(), args, {stdio: 'inherit'});
 		ti.on('close', function(code) {
 			if (command !== 'build' || options.buildOnly) {
 				grunt.log[code ? 'error' : 'ok']('titanium ' + command + ' ' + (code ? 'failed' : 'complete') + '.');
