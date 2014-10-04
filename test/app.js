@@ -1,1 +1,1 @@
-alert('test/app.js');
+Ti.API.info('SUCCESS');
