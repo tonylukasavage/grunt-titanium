@@ -8,7 +8,8 @@
 
 'use strict';
 
-var path = require('path');
+var exec = require('child_process').exec,
+  path = require('path');
 
 var TEST_APP = 'grunt-titanium-app';
 
@@ -118,6 +119,13 @@ module.exports = function(grunt) {
           projectDir: path.join('tmp', TEST_APP),
           quiet: true
         }
+      },
+      should_version_local: {
+        options: {
+          command: 'help',
+          version: true,
+          args: ['>', 'tmp/should_version_local.txt']
+        }
       }
     },
 
@@ -148,12 +156,37 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
+  grunt.registerTask('ti-version', function(type) {
+    var done = this.async(), tiBin;
+
+    if (type === 'local') {
+      tiBin = path.join('node_modules', '.bin', 'ti');
+    } else if (type === 'global') {
+      tiBin = 'ti';
+    } else {
+      grunt.fail.fatal('ti-version type must be "local" or "global"');
+    }
+
+    exec('"' + tiBin + '" --version', function(err, stdout, stderr) {
+      if (err) { return done(err); }
+      var merge = { env: { dev: {} } },
+        key = 'TI_VERSION_' + type.toUpperCase(),
+        version = stdout.trim();
+
+      merge.env.dev[key] = version;
+      grunt.config.merge(merge);
+      grunt.log.writeln(key + ' = ' + version);
+      return done();
+    });
+  });
+
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'env', 'titanium:should_create',
-    'titanium:should_build', 'titanium:should_project', 'ti:should_config',
-    'nodeunit:titanium', 'titanium:should_clean', 'titanium_run', 'ti_run',
-    'nodeunit:titanium_run', 'nodeunit:clean', 'clean']);
+  grunt.registerTask('test', ['clean', 'ti-version:local', 'ti-version:global',
+    'env', 'titanium:should_create', 'titanium:should_build', 'titanium:should_project',
+    'ti:should_config', 'titanium:should_version_local', 'nodeunit:titanium',
+    'titanium:should_clean', 'titanium_run', 'ti_run', 'nodeunit:titanium_run',
+    'nodeunit:clean', 'clean']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);

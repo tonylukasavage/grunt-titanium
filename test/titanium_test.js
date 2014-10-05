@@ -1,6 +1,7 @@
 'use strict';
 
 var exec = require('child_process').exec,
+  fs = require('fs'),
   grunt = require('grunt'),
   path = require('path');
 
@@ -58,5 +59,13 @@ exports.titanium = {
         test.done();
       });
     });
+  },
+  should_version_local: function(test) {
+    test.expect(1);
+
+    var v = fs.readFileSync(path.resolve('tmp', 'should_version_local.txt'), 'utf8').trim();
+    test.ok(v === process.env.TI_VERSION_LOCAL);
+
+    test.done();
   }
 };
