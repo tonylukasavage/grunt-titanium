@@ -214,7 +214,6 @@ module.exports = function(grunt) {
 
 		// spawn command and output
 		grunt.log.writeln('titanium ' + args.join(' '));
-		grunt.log.writeln(getTitaniumPath(preferGlobal));
 		var ti = spawn(getTitaniumPath(preferGlobal), args,
 			process.env.GRUNT_TITANIUM_TEST ? {} : {stdio: 'inherit'});
 		ti.on('close', function(code) {
