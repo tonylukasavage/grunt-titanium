@@ -43,9 +43,15 @@ grunt.initConfig({
 
 #### options.command
 Type: `String`
-Default value: `build`
+Default value: `'build'`
 
 The command to execute with the Titanium CLI.
+
+#### options.preferGlobal
+Type: `Boolean`
+Default value: `false`
+
+If set to `true`, grunt-titanium will use your globally installed version of titanium to execute the commands. If `false` (default), it will use the version of titanium included with grunt-titanium's dependencies.
 
 #### options.args
 Type: `Array`,
