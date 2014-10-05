@@ -63,7 +63,7 @@ exports.titanium = {
   should_version_local: function(test) {
     test.expect(1);
 
-    var v = fs.readFileSync(path.resolve('tmp', 'should_version_local.txt'), 'utf8').trim();
+    var v = fs.readFileSync(path.resolve('tmp', 'tmp.txt'), 'utf8').trim();
     test.ok(v === process.env.TI_VERSION_LOCAL);
 
     test.done();

@@ -214,13 +214,22 @@ module.exports = function(grunt) {
 
 		// spawn command and output
 		grunt.log.writeln('titanium ' + args.join(' '));
-		var ti = spawn(getTitaniumPath(), args, {stdio: 'inherit'});
+		var ti = spawn(getTitaniumPath(), args,
+			process.env.GRUNT_TITANIUM_TEST ? {} : {stdio: 'inherit'});
 		ti.on('close', function(code) {
 			if (command !== 'build' || options.buildOnly) {
 				grunt.log[code ? 'error' : 'ok']('titanium ' + command + ' ' + (code ? 'failed' : 'complete') + '.');
 			}
 			return callback(code);
 		});
+		if (process.env.GRUNT_TITANIUM_TEST) {
+			var testFile = path.resolve('tmp', 'tmp.txt');
+			grunt.file.mkdir(path.dirname(testFile));
+			fs.writeFileSync(testFile, '');
+			ti.stdout.on('data', function(data) {
+				fs.appendFileSync(testFile, data);
+			});
+		}
 	}
 
 	// ensure appc user is logged in

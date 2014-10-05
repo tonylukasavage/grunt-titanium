@@ -123,8 +123,7 @@ module.exports = function(grunt) {
       should_version_local: {
         options: {
           command: 'help',
-          version: true,
-          args: ['>', 'tmp/should_version_local.txt']
+          version: true
         }
       }
     },
