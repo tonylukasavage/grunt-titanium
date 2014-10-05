@@ -147,9 +147,6 @@ module.exports = function(grunt) {
 			extraArgs = [],
 			options;
 
-		// remove command from options
-		grunt.option('command', undefined);
-
 		// set default options based on command
 		switch (command) {
 			case 'build':
@@ -193,10 +190,13 @@ module.exports = function(grunt) {
 	// execute titanium commands
 	function execCommand(command, options, callback) {
 		var args = [],
-			extraArgs = (options.args || []).slice(0);
+			extraArgs = (options.args || []).slice(0),
+			preferGlobal = options.preferGlobal || false;
 
 		// remove processed options
 		delete options.args;
+		delete options.command;
+		delete options.preferGlobal;
 
 		// create the list of command arguments
 		Object.keys(options).forEach(function(key) {
