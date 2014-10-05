@@ -125,9 +125,17 @@ module.exports = function(grunt) {
           command: 'help',
           version: true
         }
+      },
+      should_version_global: {
+        options: {
+          command: 'help',
+          version: true,
+          preferGlobal: true
+        }
       }
     },
 
+    // shorthand
     ti: {
       should_config: {
         options: {
@@ -183,9 +191,9 @@ module.exports = function(grunt) {
   // plugin's task(s), then test the result.
   grunt.registerTask('test', ['clean', 'ti-version:local', 'ti-version:global',
     'env', 'titanium:should_create', 'titanium:should_build', 'titanium:should_project',
-    'ti:should_config', 'titanium:should_version_local', 'nodeunit:titanium',
-    'titanium:should_clean', 'titanium_run', 'ti_run', 'nodeunit:titanium_run',
-    'nodeunit:clean', 'clean']);
+    'ti:should_config', 'titanium:should_version_local', 'titanium:should_version_global',
+    'nodeunit:titanium', 'titanium:should_clean', 'titanium_run', 'ti_run',
+    'nodeunit:titanium_run', 'nodeunit:clean', 'clean']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);

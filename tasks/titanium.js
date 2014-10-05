@@ -214,7 +214,8 @@ module.exports = function(grunt) {
 
 		// spawn command and output
 		grunt.log.writeln('titanium ' + args.join(' '));
-		var ti = spawn(getTitaniumPath(), args,
+		grunt.log.writeln(getTitaniumPath(preferGlobal));
+		var ti = spawn(getTitaniumPath(preferGlobal), args,
 			process.env.GRUNT_TITANIUM_TEST ? {} : {stdio: 'inherit'});
 		ti.on('close', function(code) {
 			if (command !== 'build' || options.buildOnly) {
@@ -223,7 +224,7 @@ module.exports = function(grunt) {
 			return callback(code);
 		});
 		if (process.env.GRUNT_TITANIUM_TEST) {
-			var testFile = path.resolve('tmp', 'tmp.txt');
+			var testFile = path.resolve('tmp', preferGlobal ? 'tmp_global.txt' : 'tmp.txt');
 			grunt.file.mkdir(path.dirname(testFile));
 			fs.writeFileSync(testFile, '');
 			ti.stdout.on('data', function(data) {
@@ -247,10 +248,14 @@ module.exports = function(grunt) {
 
 };
 
-function getTitaniumPath() {
-	return process.env.GRUNT_TITANIUM_TEST ?
-		path.resolve('node_modules', '.bin', 'titanium') :
-		path.resolve('node_modules', 'grunt-titanium', 'node_modules', '.bin', 'titanium');
+function getTitaniumPath(preferGlobal) {
+	if (preferGlobal) {
+		return 'titanium';
+	} else {
+		return process.env.GRUNT_TITANIUM_TEST ?
+			path.resolve('node_modules', '.bin', 'titanium') :
+			path.resolve('node_modules', 'grunt-titanium', 'node_modules', '.bin', 'titanium');
+	}
 }
 
 function copyToApp(src, dest, callback) {

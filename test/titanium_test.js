@@ -64,7 +64,15 @@ exports.titanium = {
     test.expect(1);
 
     var v = fs.readFileSync(path.resolve('tmp', 'tmp.txt'), 'utf8').trim();
-    test.ok(v === process.env.TI_VERSION_LOCAL);
+    test.equal(v, process.env.TI_VERSION_LOCAL);
+
+    test.done();
+  },
+  should_version_global: function(test) {
+    test.expect(1);
+
+    var v = fs.readFileSync(path.resolve('tmp', 'tmp_global.txt'), 'utf8').trim();
+    test.equal(v, process.env.TI_VERSION_GLOBAL);
 
     test.done();
   }
