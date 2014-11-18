@@ -109,7 +109,7 @@ module.exports = function(grunt) {
           }
         },
         files: {
-          'tmp/testSuccess/Resources/app.js': ['test/badapp.js']
+          'tmp/testFailure/Resources': ['test/fixtures/bad/app.js']
         }
       }
 
