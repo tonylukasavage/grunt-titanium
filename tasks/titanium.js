@@ -238,11 +238,9 @@ module.exports = function(grunt) {
 			} else if (success && success(data)) {
 				ti.kill();
 				grunt.log.ok('titanium run successful');
-				return callback();
 			} else if (failure && failure(data)) {
 				ti.kill();
 				grunt.fail.warn('titanium run failed');
-				return callback();
 			}
 		}
 
