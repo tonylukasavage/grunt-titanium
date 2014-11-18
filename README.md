@@ -117,6 +117,20 @@ Default value: `tmp`
 
 The directory in which to store the created project.
 
+#### options.failure
+Type: `String|RegExp|Function`
+Default: `undefined`
+
+Based on the output of the Titanium app, determine if it has _failed_. This is necessary if you want a `run` or `ti_run` task to finish, since Titanium runs indefinitely if there's no intervention or error. Useful for [chaining commands](#chaining-commands) together.
+
+Here's the details on each possible usage, where `data` represents each line of output from Titanium. If the `condition` is `true`, the task is considered to have failed.
+
+type | condition | example
+-----|--------------|--------
+String | `data.indexOf(String) !== -1` | `{ failure: 'I failed' }`
+RegExp | `RegExp.test(data)` | `{ faillure: /(?:failed|errored)/i }`
+Function | `Function(data)` | `{ failure: function(data) { return data.charAt(0) === '!' } }`
+
 #### options.name
 Type: `String`
 
@@ -127,6 +141,20 @@ Type: `Boolean`
 Default value: `false`
 
 Set to true if you want to make both the create and build process quiet.
+
+#### options.success
+Type: `String|RegExp|Function`
+Default: `undefined`
+
+Based on the output of the Titanium app, determine if it has _succeeded_. This is necessary if you want a `run` or `ti_run` task to finish, since Titanium runs indefinitely if there's no intervention or error. Useful for [chaining commands](#chaining-commands) together.
+
+Here's the details on each possible usage, where `data` represents each line of output from Titanium. If the `condition` is `true`, the task is considered to have succeeded.
+
+type | condition | example
+-----|--------------|--------
+String | `data.indexOf(String) !== -1` | `{ success: 'SUCCESS' }`
+RegExp | `RegExp.test(data)` | `{ success: /(?:success|done)/i }`
+Function | `Function(data)` | `{ success: function(data) { return data.charAt(0) === '!' } }`
 
 ### Usage Examples
 
