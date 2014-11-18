@@ -298,3 +298,14 @@ grunt.initConfig({
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
+## Testing
+
+```
+grunt --force
+```
+
+In order to properly test this repo, you must use the `--force` flag with `grunt` since we need to test a failing task condition. This means that the message:
+
+> Done, but with warnings.
+
+at the end means everything worked. The warnings are expected and are part of the testing suite.
