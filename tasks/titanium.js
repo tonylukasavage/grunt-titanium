@@ -135,7 +135,11 @@ module.exports = function(grunt) {
 				return callback();
 
 			},
-			function(callback) { return execCommand('build', buildOpts, callback); }
+			function(callback) {
+				buildOpts.success = opts.success;
+				buildOpts.failure = opts.failure;
+				return execCommand('build', buildOpts, callback);
+			}
 		], done);
 
 	}
@@ -191,12 +195,22 @@ module.exports = function(grunt) {
 	function execCommand(command, options, callback) {
 		var args = [],
 			extraArgs = (options.args || []).slice(0),
-			preferGlobal = options.preferGlobal || false;
+			preferGlobal = options.preferGlobal || false,
+			success = options.success,
+			failure = options.failure,
+			killed = false;
 
 		// remove processed options
 		delete options.args;
 		delete options.command;
+		delete options.failure;
 		delete options.preferGlobal;
+		delete options.success;
+
+		// musy have output to satisfy success/failure conditions
+		if (success || failure) {
+			delete options.quiet;
+		}
 
 		// create the list of command arguments
 		Object.keys(options).forEach(function(key) {
@@ -214,14 +228,48 @@ module.exports = function(grunt) {
 
 		// spawn command and output
 		grunt.log.writeln('titanium ' + args.join(' '));
-		var ti = spawn(getTitaniumPath(preferGlobal), args,
-			process.env.GRUNT_TITANIUM_TEST ? {} : {stdio: 'inherit'});
+		var tiOpts = process.env.GRUNT_TITANIUM_TEST ? {} : {stdio: 'inherit'},
+			ti = spawn(getTitaniumPath(preferGlobal), args, tiOpts);
+
+		// prepare functions for killing this process
+		function doKill(msg, logger) {
+			killed = true;
+			ti.kill();
+			logger(msg);
+			return callback();
+		}
+
+		function killer(data) {
+			grunt.log.write(data);
+			if (killed) {
+				return;
+			} else if (success && success(data)) {
+				doKill('titanium run successful', grunt.log.ok);
+			} else if (failure && failure(data)) {
+				doKill('titanium run failed', grunt.fail.warn);
+			}
+		}
+
+		// listen for success or failure conditions
+		if (success || failure) {
+			grunt.log.writeln('setting up success handler');
+			ti.stdout.on('data', killer);
+			ti.stderr.on('data', killer);
+		}
+
+		// handle titanium's exit
 		ti.on('close', function(code) {
 			if (command !== 'build' || options.buildOnly) {
 				grunt.log[code ? 'error' : 'ok']('titanium ' + command + ' ' + (code ? 'failed' : 'complete') + '.');
 			}
-			return callback(code);
+			if (killed) {
+				return callback();
+			} else {
+				return callback(code);
+			}
 		});
+
+		// write output to a file for analysis in test specs
 		if (process.env.GRUNT_TITANIUM_TEST) {
 			var testFile = path.resolve('tmp', preferGlobal ? 'tmp_global.txt' : 'tmp.txt');
 			grunt.file.mkdir(path.dirname(testFile));
