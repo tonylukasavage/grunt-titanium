@@ -252,7 +252,6 @@ module.exports = function(grunt) {
 
 		// listen for success or failure conditions
 		if (success || failure) {
-			grunt.log.writeln('setting up success handler');
 			ti.stdout.on('data', killer);
 			ti.stderr.on('data', killer);
 		}
