@@ -197,8 +197,7 @@ module.exports = function(grunt) {
 			extraArgs = (options.args || []).slice(0),
 			preferGlobal = options.preferGlobal || false,
 			success = options.success,
-			failure = options.failure,
-			killed = false;
+			failure = options.failure;
 
 		// remove processed options
 		delete options.args;
@@ -232,21 +231,18 @@ module.exports = function(grunt) {
 			ti = spawn(getTitaniumPath(preferGlobal), args, tiOpts);
 
 		// prepare functions for killing this process
-		function doKill(msg, logger) {
-			killed = true;
-			ti.kill();
-			logger(msg);
-			return callback();
-		}
-
 		function killer(data) {
 			grunt.log.write(data);
-			if (killed) {
+			if (ti.killed) {
 				return;
 			} else if (success && success(data)) {
-				doKill('titanium run successful', grunt.log.ok);
+				ti.kill();
+				grunt.log.ok('titanium run successful');
+				return callback();
 			} else if (failure && failure(data)) {
-				doKill('titanium run failed', grunt.fail.warn);
+				ti.kill();
+				grunt.fail.warn('titanium run failed');
+				return callback();
 			}
 		}
 
@@ -261,11 +257,7 @@ module.exports = function(grunt) {
 			if (command !== 'build' || options.buildOnly) {
 				grunt.log[code ? 'error' : 'ok']('titanium ' + command + ' ' + (code ? 'failed' : 'complete') + '.');
 			}
-			if (killed) {
-				return callback();
-			} else {
-				return callback(code);
-			}
+			return callback(ti.killed ? null : code);
 		});
 
 		// write output to a file for analysis in test specs
