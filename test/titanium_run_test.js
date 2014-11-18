@@ -105,7 +105,7 @@ exports.titanium = {
   testFailure: function(test) {
     test.expect(5);
 
-    var src = path.resolve('test', 'app.js'),
+    var src = path.resolve('test', 'fixtures', 'bad', 'app.js'),
       root = path.resolve('tmp', 'testFailure'),
       appJs = path.resolve(root, 'Resources', 'app.js');
 
