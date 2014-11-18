@@ -83,6 +83,34 @@ module.exports = function(grunt) {
         files: {
           'tmp/onemore/Resources': ['test/titanium*', 'Gruntfile.js', 'package.json', 'fixtures/anothertest.js']
         }
+      },
+
+      testSuccess: {
+        options: {
+          build: {
+            buildOnly: false
+          },
+          success: function(data) {
+            return (/SUCCESS/).test(data);
+          }
+        },
+        files: {
+          'tmp/testSuccess/Resources': ['test/app.js']
+        }
+      },
+
+      testFailure: {
+        options: {
+          build: {
+            buildOnly: false
+          },
+          failure: function(data) {
+            return (/FAILED/).test(data);
+          }
+        },
+        files: {
+          'tmp/testSuccess/Resources/app.js': ['test/badapp.js']
+        }
       }
 
     },
