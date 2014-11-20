@@ -251,7 +251,8 @@ module.exports = function(grunt) {
 
 		// spawn command and output
 		grunt.log.writeln('titanium ' + args.join(' '));
-		var tiOpts = process.env.GRUNT_TITANIUM_TEST ? {} : {stdio: 'inherit'},
+		var tiOpts = process.env.GRUNT_TITANIUM_TEST || success || failure ?
+				{} : {stdio: 'inherit'},
 			ti = spawn(getTitaniumPath(preferGlobal), args, tiOpts);
 
 		// prepare functions for killing this process
