@@ -131,6 +131,8 @@ String | `data.indexOf(String) !== -1` | `{ failure: 'I failed' }`
 RegExp | `RegExp.test(data)` | `{ faillure: /(?:failed|errored)/i }`
 Function | `Function(data)` | `{ failure: function(data) { return data.charAt(0) === '!' } }`
 
+Check the [Gruntfile.js](https://github.com/tonylukasavage/grunt-titanium/blob/master/Gruntfile.js) for more examples of success and failure conditions.
+
 #### options.name
 Type: `String`
 
@@ -155,6 +157,8 @@ type | condition | example
 String | `data.indexOf(String) !== -1` | `{ success: 'SUCCESS' }`
 RegExp | `RegExp.test(data)` | `{ success: /(?:success|done)/i }`
 Function | `Function(data)` | `{ success: function(data) { return data.charAt(0) === '!' } }`
+
+Check the [Gruntfile.js](https://github.com/tonylukasavage/grunt-titanium/blob/master/Gruntfile.js) for more examples of success and failure conditions.
 
 ### Usage Examples
 
