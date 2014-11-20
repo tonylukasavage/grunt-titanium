@@ -99,6 +99,30 @@ module.exports = function(grunt) {
         }
       },
 
+      testSuccessRegex: {
+        options: {
+          build: {
+            buildOnly: false
+          },
+          success: /SUCCESS/
+        },
+        files: {
+          'tmp/testSuccessRegex/Resources': ['test/app.js']
+        }
+      },
+
+      testSuccessString: {
+        options: {
+          build: {
+            buildOnly: false
+          },
+          success: 'SUCCESS'
+        },
+        files: {
+          'tmp/testSuccessString/Resources': ['test/app.js']
+        }
+      },
+
       testFailure: {
         options: {
           build: {
@@ -110,6 +134,30 @@ module.exports = function(grunt) {
         },
         files: {
           'tmp/testFailure/Resources': ['test/fixtures/bad/app.js']
+        }
+      },
+
+      testFailureRegex: {
+        options: {
+          build: {
+            buildOnly: false
+          },
+          failure: /FAILED/
+        },
+        files: {
+          'tmp/testFailureRegex/Resources': ['test/fixtures/bad/app.js']
+        }
+      },
+
+      testFailureString: {
+        options: {
+          build: {
+            buildOnly: false
+          },
+          failure: 'FAILED'
+        },
+        files: {
+          'tmp/testFailureString/Resources': ['test/fixtures/bad/app.js']
         }
       }
 

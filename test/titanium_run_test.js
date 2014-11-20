@@ -102,6 +102,36 @@ exports.titanium = {
 
     test.done();
   },
+  testSuccessRegex: function(test) {
+    test.expect(5);
+
+    var src = path.resolve('test', 'app.js'),
+      root = path.resolve('tmp', 'testSuccessRegex'),
+      appJs = path.resolve(root, 'Resources', 'app.js');
+
+    test.ok(grunt.file.exists(appJs));
+    test.ok(fs.readFileSync(appJs, 'utf8') === fs.readFileSync(src, 'utf8'));
+    test.ok(grunt.file.exists(path.join(root, 'build', 'iphone')));
+    test.ok(grunt.file.exists(path.join(root, 'build', 'iphone', 'testSuccessRegex.xcodeproj')));
+    test.ok(grunt.file.exists(path.join(root, 'build', 'iphone', 'build', 'testSuccessRegex.build')));
+
+    test.done();
+  },
+  testSuccessString: function(test) {
+    test.expect(5);
+
+    var src = path.resolve('test', 'app.js'),
+      root = path.resolve('tmp', 'testSuccessString'),
+      appJs = path.resolve(root, 'Resources', 'app.js');
+
+    test.ok(grunt.file.exists(appJs));
+    test.ok(fs.readFileSync(appJs, 'utf8') === fs.readFileSync(src, 'utf8'));
+    test.ok(grunt.file.exists(path.join(root, 'build', 'iphone')));
+    test.ok(grunt.file.exists(path.join(root, 'build', 'iphone', 'testSuccessString.xcodeproj')));
+    test.ok(grunt.file.exists(path.join(root, 'build', 'iphone', 'build', 'testSuccessString.build')));
+
+    test.done();
+  },
   testFailure: function(test) {
     test.expect(5);
 
@@ -114,6 +144,36 @@ exports.titanium = {
     test.ok(grunt.file.exists(path.join(root, 'build', 'iphone')));
     test.ok(grunt.file.exists(path.join(root, 'build', 'iphone', 'testFailure.xcodeproj')));
     test.ok(grunt.file.exists(path.join(root, 'build', 'iphone', 'build', 'testFailure.build')));
+
+    test.done();
+  },
+  testFailureRegex: function(test) {
+    test.expect(5);
+
+    var src = path.resolve('test', 'fixtures', 'bad', 'app.js'),
+      root = path.resolve('tmp', 'testFailureRegex'),
+      appJs = path.resolve(root, 'Resources', 'app.js');
+
+    test.ok(grunt.file.exists(appJs));
+    test.ok(fs.readFileSync(appJs, 'utf8') === fs.readFileSync(src, 'utf8'));
+    test.ok(grunt.file.exists(path.join(root, 'build', 'iphone')));
+    test.ok(grunt.file.exists(path.join(root, 'build', 'iphone', 'testFailureRegex.xcodeproj')));
+    test.ok(grunt.file.exists(path.join(root, 'build', 'iphone', 'build', 'testFailureRegex.build')));
+
+    test.done();
+  },
+  testFailureString: function(test) {
+    test.expect(5);
+
+    var src = path.resolve('test', 'fixtures', 'bad', 'app.js'),
+      root = path.resolve('tmp', 'testFailureString'),
+      appJs = path.resolve(root, 'Resources', 'app.js');
+
+    test.ok(grunt.file.exists(appJs));
+    test.ok(fs.readFileSync(appJs, 'utf8') === fs.readFileSync(src, 'utf8'));
+    test.ok(grunt.file.exists(path.join(root, 'build', 'iphone')));
+    test.ok(grunt.file.exists(path.join(root, 'build', 'iphone', 'testFailureString.xcodeproj')));
+    test.ok(grunt.file.exists(path.join(root, 'build', 'iphone', 'build', 'testFailureString.build')));
 
     test.done();
   }
