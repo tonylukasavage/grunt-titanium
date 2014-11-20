@@ -196,8 +196,9 @@ module.exports = function(grunt) {
 		var args = [],
 			extraArgs = (options.args || []).slice(0),
 			preferGlobal = options.preferGlobal || false,
-			success = options.success,
-			failure = options.failure;
+			srcSuccess = options.success,
+			srcFailure = options.failure,
+			success, failure;
 
 		// remove processed options
 		delete options.args;
@@ -206,9 +207,32 @@ module.exports = function(grunt) {
 		delete options.preferGlobal;
 		delete options.success;
 
-		// musy have output to satisfy success/failure conditions
-		if (success || failure) {
+		// must have output to satisfy success/failure conditions
+		if (srcSuccess || srcFailure) {
 			delete options.quiet;
+		}
+
+		// determine succes and failure types
+		if (_.isRegExp(srcSuccess)) {
+			success = function(data) { return srcSuccess.test(data); };
+		} else if (_.isString(srcSuccess)) {
+			success = function(data) { return data.toString().indexOf(srcSuccess) !== -1; };
+		} else if (_.isFunction(srcSuccess)) {
+			success = srcSuccess;
+		} else if (!!success) {
+			success = undefined;
+			grunt.fail.warn('invalid type for success option, must be string, regexp, or function');
+		}
+
+		if (_.isRegExp(srcFailure)) {
+			failure = function(data) { return srcFailure.test(data); };
+		} else if (_.isString(srcFailure)) {
+			failure = function(data) { return data.toString().indexOf(srcFailure) !== -1; };
+		} else if (_.isFunction(srcFailure)) {
+			failure = srcFailure;
+		} else if (!!failure) {
+			failure = undefined;
+			grunt.fail.warn('invalid type for failure option, must be string, regexp, or function');
 		}
 
 		// create the list of command arguments
