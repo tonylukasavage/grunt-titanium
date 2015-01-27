@@ -278,7 +278,11 @@ module.exports = function(grunt) {
 		// handle titanium's exit
 		ti.on('close', function(code) {
 			if (command !== 'build' || options.buildOnly) {
-				grunt.log[code ? 'error' : 'ok']('titanium ' + command + ' ' + (code ? 'failed' : 'complete') + '.');
+				if (code) {
+					grunt.fail.fatal('titanium ' + command + ' failed.');
+				} else {
+					grunt.log.ok('titanium ' + command + ' complete.');
+				}
 			}
 			return callback(ti.killed ? null : code);
 		});
