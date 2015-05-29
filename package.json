@@ -48,6 +48,6 @@
     "fs-extra": "^0.11.0",
     "lodash": "~2.4.1",
     "recursive-readdir": "^1.2.0",
-    "titanium": "^3.2.0"
+    "titanium": "^4.0.0"
   }
 }
