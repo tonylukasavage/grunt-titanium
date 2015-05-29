@@ -178,7 +178,7 @@ module.exports = function(grunt) {
 				break;
 		}
 
-		return execCommand(command, options, callback);
+		return execCommand(command, options, done);
 
 	}
 
