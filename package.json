@@ -1,53 +1,51 @@
 {
-  "name": "grunt-titanium",
-  "description": "grunt plugin for titanium CLI",
-  "version": "0.3.1",
-  "homepage": "https://github.com/tonylukasavage/grunt-titanium",
-  "author": {
-    "name": "Tony Lukasavage",
-    "email": "anthony.lukasavage@gmail.com",
-    "url": "http://tonylukasavage.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/tonylukasavage/grunt-titanium.git"
-  },
-  "bugs": {
-    "url": "https://github.com/tonylukasavage/grunt-titanium/issues"
-  },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/tonylukasavage/grunt-titanium/blob/master/LICENSE-MIT"
-    }
-  ],
-  "engines": {
-    "node": ">= 0.8.0"
-  },
-  "scripts": {
-    "test": "grunt test"
-  },
-  "devDependencies": {
-    "grunt": "~0.4.2",
-    "grunt-contrib-clean": "~0.4.0",
-    "grunt-contrib-jshint": "~0.6.0",
-    "grunt-contrib-nodeunit": "~0.2.0",
-    "grunt-env": "^0.4.1"
-  },
-  "peerDependencies": {
-    "grunt": "~0.4.2"
-  },
-  "keywords": [
-    "gruntplugin",
-    "titanium",
-    "alloy",
-    "appcelerator"
-  ],
-  "dependencies": {
-    "async": "~0.2.9",
-    "fs-extra": "^0.11.0",
-    "lodash": "~2.4.1",
-    "recursive-readdir": "^1.2.0",
-    "titanium": "^3.2.0"
-  }
+	"name": "grunt-titanium",
+	"description": "grunt plugin for titanium CLI",
+	"version": "0.3.2",
+	"homepage": "https://github.com/tonylukasavage/grunt-titanium",
+	"author": {
+		"name": "Tony Lukasavage",
+		"email": "anthony.lukasavage@gmail.com",
+		"url": "http://tonylukasavage.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/tonylukasavage/grunt-titanium.git"
+	},
+	"bugs": {
+		"url": "https://github.com/tonylukasavage/grunt-titanium/issues"
+	},
+	"licenses": [{
+		"type": "MIT",
+		"url": "https://github.com/tonylukasavage/grunt-titanium/blob/master/LICENSE-MIT"
+	}],
+	"engines": {
+		"node": ">= 0.8.0"
+	},
+	"scripts": {
+		"test": "grunt test"
+	},
+	"devDependencies": {
+		"grunt": "~0.4.2",
+		"grunt-contrib-clean": "~0.4.0",
+		"grunt-contrib-jshint": "~0.6.0",
+		"grunt-contrib-nodeunit": "~0.2.0",
+		"grunt-env": "^0.4.1"
+	},
+	"peerDependencies": {
+		"grunt": "~0.4.2"
+	},
+	"keywords": [
+		"gruntplugin",
+		"titanium",
+		"alloy",
+		"appcelerator"
+	],
+	"dependencies": {
+		"async": "~0.2.9",
+		"fs-extra": "^0.11.0",
+		"lodash": "~2.4.1",
+		"recursive-readdir": "^1.2.0",
+		"titanium": ">3.2.0"
+	}
 }
