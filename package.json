@@ -1,7 +1,7 @@
 {
   "name": "grunt-titanium",
   "description": "grunt plugin for titanium CLI",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "homepage": "https://github.com/tonylukasavage/grunt-titanium",
   "author": {
     "name": "Tony Lukasavage",
@@ -48,6 +48,6 @@
     "fs-extra": "^0.11.0",
     "lodash": "~2.4.1",
     "recursive-readdir": "^1.2.0",
-    "titanium": "^3.2.0"
+    "titanium": ">3.2.0"
   }
 }
