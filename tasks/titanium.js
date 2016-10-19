@@ -88,9 +88,8 @@ module.exports = function(grunt) {
 				noPrompt: true
 			}, opts.build);
 
-		// ensure login, create app, build/run app
+		// create app, build/run app
 		async.series([
-			ensureLogin,
 			function(callback) { return execCommand('create', createOpts, callback); },
 			function(callback) {
 
@@ -179,15 +178,7 @@ module.exports = function(grunt) {
 				break;
 		}
 
-		// ensure login and execute the command
-		async.series([
-			ensureLogin,
-			function(callback) {
-				return execCommand(command, options, callback);
-			}
-		], function(err, result) {
-			return done(err);
-		});
+		return execCommand(command, options, done);
 
 	}
 
@@ -296,19 +287,6 @@ module.exports = function(grunt) {
 				fs.appendFileSync(testFile, data);
 			});
 		}
-	}
-
-	// ensure appc user is logged in
-	function ensureLogin(callback) {
-		exec('"' + getTitaniumPath() + '" status -o json', function(err, stdout, stderr) {
-			if (err) { return callback(err); }
-			if (!JSON.parse(stdout).loggedIn) {
-				grunt.fail.fatal([
-					'You must be logged in to use grunt-titanium. Use `titanium login`.'
-				]);
-			}
-			return callback();
-		});
 	}
 
 };
