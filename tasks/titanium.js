@@ -39,11 +39,11 @@ var GLOBAL_FLAGS = {
 
 module.exports = function(grunt) {
 
-	var descr = 'grunt plugin to create and launch a Titanium app';
+	var descr = 'grunt plugin to create and launch an Appcelerator Titanium app';
 	grunt.registerMultiTask('titanium_run', descr, executeTitaniumRun);
 	grunt.registerMultiTask('ti_run', descr, executeTitaniumRun);
 
-	descr = 'grunt plugin for titanium CLI';
+	descr = 'grunt plugin for appc titanium CLI';
 	grunt.registerMultiTask('titanium', descr, executeTitanium);
 	grunt.registerMultiTask('ti', descr, executeTitanium);
 
@@ -250,7 +250,7 @@ module.exports = function(grunt) {
 		args = args.concat(extraArgs);
 
 		// spawn command and output
-		grunt.log.writeln('titanium ' + args.join(' '));
+		grunt.log.writeln('appc ti ' + args.join(' '));
 		var tiOpts = process.env.GRUNT_TITANIUM_TEST || success || failure ?
 				{} : {stdio: 'inherit'},
 			ti = spawn(getTitaniumPath(preferGlobal), args, tiOpts);
@@ -262,10 +262,10 @@ module.exports = function(grunt) {
 				return;
 			} else if (success && success(data)) {
 				ti.kill();
-				grunt.log.ok('titanium run successful');
+				grunt.log.ok('appc ti run successful');
 			} else if (failure && failure(data)) {
 				ti.kill();
-				grunt.fail.warn('titanium run failed');
+				grunt.fail.warn('appc ti run failed');
 			}
 		}
 
@@ -304,7 +304,7 @@ module.exports = function(grunt) {
 			if (err) { return callback(err); }
 			if (!JSON.parse(stdout).loggedIn) {
 				grunt.fail.fatal([
-					'You must be logged in to use grunt-titanium. Use `titanium login`.'
+					'You must be logged in to use grunt-titanium. Use `appc login`.'
 				]);
 			}
 			return callback();
