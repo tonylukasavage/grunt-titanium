@@ -1,4 +1,4 @@
-> **WARNING** This repo is no longer maintained. Appcelerator (at some point) removed "titanium login" from their CLI, which is integral to frunt-titanium working. I believe someone noted this was around version 5 of Titanium, but I'm not certain. In any case, grunt-titanium is only really reliable prior to Titanium 5.0.
+> **WARNING** This repo is no longer maintained. Appcelerator (at some point) removed "titanium login" from their CLI, which is integral to grunt-titanium working. I believe someone noted this was around version 5 of Titanium, but I'm not certain. In any case, grunt-titanium is only really reliable prior to Titanium 5.0.
 
 # grunt-titanium [![NPM version](https://badge.fury.io/js/grunt-titanium.png)](http://badge.fury.io/js/grunt-titanium) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
